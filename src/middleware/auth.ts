@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import asycHandler from './async';
 import ErrorResponse from '../utils/errorResponse';
-import User from '../models/UserModel';
+import User from '../models/User';
 import { Request, Response, NextFunction } from 'express';
 
 // Protect routes
@@ -26,7 +26,12 @@ export const protect = asycHandler(async (req: any, res: Response, next: NextFun
         });
 
         // Get the user with ID
-        req.user = await User.findById(decoded.id);
+        req.user = await User.findOne({
+            where: {
+                id: decoded.id,
+            },
+        });
+
         next();
     } catch (err) {
         return next(new ErrorResponse(' غير مصرح لك الدخول الى هنا ☹', 401));
@@ -53,19 +58,19 @@ export const getLoginUser = asycHandler(async (req: any, res: Response, next: Ne
         token = req.cookies.token;
     }
 
-    if (!token) {
+    if (token) {
         return next();
     }
     try {
         // Verify token
-        const decoded = jwt.verify(token, process.env.JWT_SECRET_KEY, {
+        const decoded: any = jwt.verify(token, process.env.JWT_SECRET_KEY as string, {
             ignoreExpiration: true,
         });
         // Get the user with ID
-        req.user = await User.findById(decoded.id);
+        req.user = await User.findByPk(decoded.id);
         next();
     } catch (err) {
         console.log('err', err);
-        return next(new ErrorResponse(' غير مصرح الدخول الى هنا :( ', 401, true));
+        return next(new ErrorResponse(' غير مصرح الدخول الى هنا :( ', 401));
     }
 });

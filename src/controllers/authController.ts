@@ -1,10 +1,11 @@
 import crypto from 'crypto';
 import asyncHandler from '../middleware/async';
-import UserModel from '../models/UserModel';
-import PollModel from '../models/PollModel';
+import User from '../models/User';
 import ErrorResponse from '../utils/errorResponse';
 import ms from 'ms';
 import { Request, Response, NextFunction } from 'express';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
 
 // @desc      Render the register page
 // @route     GET /auth/register
@@ -33,28 +34,32 @@ export const registerUsers = asyncHandler(async (req: any, res: Response, next: 
     if (req.user) {
         return res.redirect('/');
     }
-    let { username, email, password } = req.body;
+    let { username, password, role } = req.body;
+    console.log('TCL: registerUsers -> role', role);
+    console.log('TCL: registerUsers -> password', password);
+    console.log('TCL: registerUsers -> username', username);
 
-    if (!username || !email || !password) {
+    if (!username || !password || !role) {
         return next(new ErrorResponse(`الرجاء ادخال الاسم و الايميل و كلمة المرور`, 400));
     }
-    email = email.toLowerCase();
 
-    // Check if the email exists
-    const userCheck = await UserModel.findOne({ email: email });
+    // Check if the username exists
+    const userCheck = await User.findOne({
+        where: {
+            username,
+        },
+    });
 
     if (userCheck) {
         return next(new ErrorResponse(`هذا المستخدم موجود من قبل`, 400));
     }
 
     // Create user in the db
-    const user = await UserModel.create({
-        username,
-        email,
-        password,
+    const user: any = await User.create({
+        username: username,
+        password: password,
+        role: role,
     });
-
-    await convertCookieToLogin(req, res, user._id);
 
     sendTokenResponse(user, 200, res, 'تم التسجيل بنجاح', true);
 });
@@ -66,17 +71,19 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
     if (req.user) {
         return res.redirect('/');
     }
-
-    let { email, password, rememberMe } = req.body;
-
+    let { username, password, rememberMe } = req.body;
+    if (!rememberMe) {
+        rememberMe = false;
+    }
     // Check  if email entered and password
-    if (!email || !password) {
+    if (!username || !password) {
         return next(new ErrorResponse(`الرجاء ادخال الايميل و كلمة المرور`, 400));
     }
-    email = email.toLowerCase();
 
     // Bring the user from the DB
-    const user = await UserModel.findOne({ email }).select('+password');
+    const user: any = await User.findOne({
+        where: { username: username },
+    });
 
     // Check if the user exist
     if (!user) {
@@ -84,13 +91,11 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
     }
 
     // Check the password if match or not
-    const isMatch = await user.checkPassword(password);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
         return next(new ErrorResponse(`خطأ في الايميل او كلمة المرور`, 400));
     }
-
-    await convertCookieToLogin(req, res, user.id);
 
     sendTokenResponse(user, 200, res, 'مرحبا بعودتك', rememberMe);
 });
@@ -103,28 +108,27 @@ export const logout = asyncHandler(async (req: any, res: Response, next: NextFun
     res.redirect('/');
 });
 
-// @desc      Render the forget password page
-// @route     GET /auth/forgotpassword
-// @access    Public
-export const getforgotPasswordView = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
-    res.render('auth/forgotPasswordView');
-});
-
 // @desc      Update password
 // @route     GET /api/v1/auth/updatepassword
 // @access    Private
 export const updatePassword = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
     const { oldPassword, newPassword } = req.body;
 
-    const user = await UserModel.findById(req.user.id).select('+password');
+    const user: any = await User.findByPk(req.user.id);
 
-    if (!(await user.checkPassword(req.body.oldPassword))) {
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+
+    if (!isMatch) {
         return next(new ErrorResponse('خطأ في كلمة المرور السابقة', 401));
     }
-
-    user.password = req.body.newPassword;
-
-    await user.save();
+    await User.update(
+        { password: newPassword },
+        {
+            where: {
+                username: user.username,
+            },
+        },
+    );
 
     sendTokenResponse(user, 200, res, 'تم تغيير كلمة المرور بنجاح', true);
 });
@@ -136,22 +140,24 @@ export const updateDetails = async (req: any, res: Response, next: NextFunction)
     try {
         const filesToUpdate = {
             username: req.body.username,
-            email: req.body.email,
+            role: req.body.role,
         };
 
-        const user = await UserModel.findByIdAndUpdate(req.user.id, filesToUpdate, {
-            new: true,
-            runValidators: true,
-        });
+        await User.update(
+            { filesToUpdate },
+            {
+                where: {
+                    username: req.body.username,
+                },
+            },
+        );
 
         res.status(200).json({
             success: true,
             message: 'تم تعديل البيانات',
         });
     } catch (e) {
-        if (e.code == 11000) {
-            return next(new ErrorResponse('هذا الايميل موحود من قبل', 401));
-        }
+        return next(new ErrorResponse('هذا الايميل موحود من قبل', 401));
     }
 };
 
@@ -159,7 +165,9 @@ const sendTokenResponse = (user: any, statusCode: number, res: Response, msg: st
     const duration = rememberMe ? ms('30d') : ms('1d');
 
     // Create token
-    const token = user.getSignedJwtToken(duration);
+    const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY as string, {
+        expiresIn: duration,
+    });
 
     const options = {
         expires: new Date(Date.now() + duration),
@@ -175,12 +183,4 @@ const sendTokenResponse = (user: any, statusCode: number, res: Response, msg: st
         success: true,
         message: msg,
     });
-};
-
-const convertCookieToLogin = async (req: any, res: Response, userID: number) => {
-    const adminID = req.cookies.adminID;
-    if (adminID) {
-        await PollModel.updateMany({ adminID }, { adminID: userID });
-    }
-    await res.clearCookie('adminID');
 };
