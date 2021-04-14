@@ -35,9 +35,6 @@ export const registerUsers = asyncHandler(async (req: any, res: Response, next: 
         return res.redirect('/');
     }
     let { username, password, role } = req.body;
-    console.log('TCL: registerUsers -> role', role);
-    console.log('TCL: registerUsers -> password', password);
-    console.log('TCL: registerUsers -> username', username);
 
     if (!username || !password || !role) {
         return next(new ErrorResponse(`الرجاء ادخال الاسم و الايميل و كلمة المرور`, 400));

@@ -10,9 +10,9 @@ shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWX
 
 const User = db.define('User', {
     id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
-        autoIncrement: true,
     },
     username: {
         type: DataTypes.STRING,
@@ -29,7 +29,7 @@ const User = db.define('User', {
     },
 });
 
-User.sync().then(() => {
+User.sync({ force: true }).then(() => {
     console.log('User table is created'.red);
 });
 
