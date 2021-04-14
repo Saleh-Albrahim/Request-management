@@ -118,4 +118,4 @@ dist
 
 .history
 
-/config/config.env
+/src/config/config.env
