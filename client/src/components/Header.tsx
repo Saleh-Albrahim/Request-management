@@ -14,7 +14,7 @@ const Header: React.FC = () => (
     py={2}
     w="full"
   >
-    <HStack spacing={7}>
+    <HStack spacing={8}>
       <Link to="/">
         <Text fontSize="2xl">الرئيسية</Text>
       </Link>

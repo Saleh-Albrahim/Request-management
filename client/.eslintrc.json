@@ -15,20 +15,8 @@
     "project": "tsconfig.json",
     "sourceType": "module"
   },
-  "plugins": [
-    "eslint-plugin-import-helpers",
-    "sort-destructure-keys"
-  ],
+  "plugins": ["eslint-plugin-import-helpers", "sort-destructure-keys"],
   "rules": {
-    "sort-keys": [
-      "error",
-      "asc",
-      {
-        "caseSensitive": true,
-        "natural": true,
-        "minKeys": 2
-      }
-    ],
     "sort-destructure-keys/sort-destructure-keys": [
       "error",
       {
@@ -47,25 +35,6 @@
     "@typescript-eslint/member-ordering": "error",
     "comma-dangle": "off",
     "global-require": "off",
-    "import-helpers/order-imports": [
-      "error",
-      {
-        "alphabetize": {
-          "ignoreCase": true,
-          "order": "asc"
-        },
-        "groups": [
-          "/^react/",
-          "module",
-          [
-            "parent",
-            "sibling",
-            "index"
-          ]
-        ],
-        "newlinesBetween": "always"
-      }
-    ],
     "max-len": [
       "error",
       {
@@ -91,28 +60,12 @@
         "custom": "ignore"
       }
     ],
-    "react/jsx-sort-props": [
-      "error",
-      {
-        "ignoreCase": true
-      }
-    ],
     "react/jsx-uses-react": "off",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
-    "react/state-in-constructor": [
-      "error",
-      "never"
-    ],
+    "react/state-in-constructor": ["error", "never"],
     "react/jsx-curly-brace-presence": ["error", "never"],
-    "semi": "error",
-    "sort-imports": [
-      "error",
-      {
-        "ignoreCase": true,
-        "ignoreDeclarationSort": true
-      }
-    ]
+    "semi": "error"
   },
   "settings": {
     "react": {
