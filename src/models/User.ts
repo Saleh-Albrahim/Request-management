@@ -30,7 +30,7 @@ const User = db.define('User', {
 });
 
 User.sync({ force: true }).then(() => {
-    console.log('User table is created'.red);
+    console.log('User table is created'.cyan.bold);
 });
 
 const hashPasswordHook = async (instance: any) => {

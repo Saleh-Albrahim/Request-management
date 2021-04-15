@@ -38,7 +38,7 @@ app.use(helmet());
 app.use('/api/v1/', mainRoute);
 app.use('/api/v1/auth', authRoute);
 
-const PORT: number = (process.env.PORT as any) || 3000;
+const PORT: number = (process.env.PORT as any) || 5000;
 
 app.listen(PORT, () => {
     console.log(`Server running in ${process.env.NODE_ENV} mode on http://localhost:${PORT}`.yellow.bold);
