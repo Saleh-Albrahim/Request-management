@@ -13,25 +13,14 @@ import theme from './theme';
 // 3. extend the theme
 
 const App: () => JSX.Element = () => {
-  const submitLogin: any = async (username: string, password: string) => {
-    const response = await fetch('/api/v1/auth/login', {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    });
-    const data = await response.json();
-
-    console.log(`data`, data);
-  };
+  const a = 1;
   return (
     <ChakraProvider theme={theme}>
       <React.Suspense fallback={<Spinner />}>
         <Router>
           <Container maxW="container.xl">
             <Switch>
-              <Route path="/" render={(routeProps) => <Login {...routeProps} submitLogin={submitLogin} />} />
+              <Route path="/" exact component={Login} />
               <Header />
               <Route component={Home} path="/home" />
               <Route component={About} path="/about" />

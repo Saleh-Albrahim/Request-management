@@ -7,6 +7,6 @@ import User from '../models/User';
 // import {} from '../controllers/mainController';
 
 // Middleware
-import { protect, getLoginUser } from '../middleware/auth';
+import { protect } from '../middleware/auth';
 
 export default router;

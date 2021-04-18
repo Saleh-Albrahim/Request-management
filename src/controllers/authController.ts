@@ -7,24 +7,14 @@ import { Request, Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-// @desc      Render the register page
-// @route     GET /auth/register
+// @desc      Return the login user
+// @route     GET /auth/user
 // @access    Public
-export const getRegisterView = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
-    if (req.user) {
-        return res.redirect('/');
-    }
-    res.render('auth/registerView');
-});
-
-// @desc      Render the login page
-// @route     GET /auth/login
-// @access    Public
-export const getLoginView = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
-    if (req.user) {
-        return res.redirect('/');
-    }
-    res.render('auth/loginView');
+export const getLoginUser = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
+    return res.json({
+        username: req.user.username,
+        role: req.user.role,
+    });
 });
 
 // @desc      Register user

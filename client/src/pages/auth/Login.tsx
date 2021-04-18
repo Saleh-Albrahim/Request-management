@@ -1,26 +1,31 @@
-import { Flex, VStack, Input, FormControl, FormLabel, Button, Image, Text } from '@chakra-ui/react';
+import { Flex, VStack, Input, FormControl, FormLabel, Button, Image, Text, Box } from '@chakra-ui/react';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Logo from '../../img/logo.png';
 
-interface Props {
-  submitLogin: (username: string, password: string) => Promise<any>;
-}
+const Login: React.FC = () => {
+  const history = useHistory();
+  const submitLogin: any = async (username: string, password: string) => {
+    const response = await fetch('/api/v1/auth/login', {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ username, password }),
+    });
+    const data = await response.json();
+    alert(data.message);
+    if (response.status === 200) {
+      history.push('/home');
+    }
+  };
 
-const Login: React.FC<Props> = ({ submitLogin }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   return (
     <Flex alignItems="center" justifyContent="center" height="100vh">
-      <Flex
-        px="20"
-        py="10"
-        rounded="md"
-        backgroundColor="#F0F0F0"
-        border="10px"
-        borderColor="black"
-        boxShadow="dark-lg"
-      >
+      <Box px="20" py="10" rounded="md" backgroundColor="#F0F0F0" border="10px" borderColor="black" boxShadow="dark-lg">
         <VStack spacing={10}>
           <Image boxSize="200px" src={Logo} alt="وزارة الدفاع" />
           <Text color="gray" fontSize="40px">
@@ -71,7 +76,7 @@ const Login: React.FC<Props> = ({ submitLogin }) => {
             تسجيل الدخول
           </Button>
         </VStack>
-      </Flex>
+      </Box>
     </Flex>
   );
 };

@@ -37,11 +37,12 @@ export const protect = asycHandler(async (req: any, res: Response, next: NextFun
         return next(new ErrorResponse(' غير مصرح لك الدخول الى هنا ☹', 401));
     }
 });
+
 // Grant accses to specifix roles
 export const authorize = (...roles: any) => {
     return (req: any, res: Response, next: NextFunction) => {
         if (!roles.includes(req.user.role)) {
-            return next(new ErrorResponse(`User role ${req.user.role} is not authorize to access this route`, 403));
+            return next(new ErrorResponse(`غير مسموح لك الدخول الى هنا ☹`, 403));
         }
         next();
     };
@@ -71,6 +72,6 @@ export const getLoginUser = asycHandler(async (req: any, res: Response, next: Ne
         next();
     } catch (err) {
         console.log('err', err);
-        return next(new ErrorResponse(' غير مصرح الدخول الى هنا :( ', 401));
+        return next(new ErrorResponse(' غير مصرح الدخول الى هنا', 401));
     }
 });

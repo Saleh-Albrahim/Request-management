@@ -1,13 +1,13 @@
 import express from 'express';
 import ErrorResponse from '../utils/errorResponse';
-import { getRegisterView, getLoginView, registerUsers, loginUsers, updatePassword, updateDetails, logout } from '../controllers/authController';
-import { protect, getLoginUser } from '../middleware/auth';
+import { registerUsers, loginUsers, updatePassword, updateDetails, logout } from '../controllers/authController';
+import { protect } from '../middleware/auth';
 
 const router = express.Router();
 
-router.route('/register').get(getLoginUser, getRegisterView).post(getLoginUser, registerUsers);
+router.route('/register').post(registerUsers);
 
-router.route('/login').get(getLoginUser, getLoginView).post(getLoginUser, loginUsers);
+router.route('/login').post(loginUsers);
 
 router.get('/logout', protect, logout);
 

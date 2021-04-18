@@ -29,7 +29,7 @@ const User = db.define('User', {
     },
 });
 
-User.sync({ force: true }).then(() => {
+User.sync().then(() => {
     console.log('User table is created'.cyan.bold);
 });
 
