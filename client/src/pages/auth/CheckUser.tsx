@@ -6,8 +6,7 @@ const CheckUser: React.FC = () => {
     const fetchUser = async () => {
       const response = await fetch('/api/v1/auth/user');
       if (response.status == 200) {
-        const serverUser = await response.json();
-        setUser(serverUser);
+        const data = await response.json();
       }
     };
   });

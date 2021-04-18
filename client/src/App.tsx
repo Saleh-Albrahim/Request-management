@@ -1,6 +1,5 @@
-import * as React from 'react';
+import React, { useState } from 'react';
 import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
-
 import { ChakraProvider, Container } from '@chakra-ui/react';
 import Header from 'components/Header';
 import Spinner from 'components/Spinner';
@@ -13,15 +12,19 @@ import theme from './theme';
 // 3. extend the theme
 
 const App: () => JSX.Element = () => {
-  const a = 1;
+  const [isAuthenticated, setisAuthenticated] = useState(false);
+
+  const handleLogin = (isAuthenticated: boolean) => {
+    setisAuthenticated(isAuthenticated);
+  };
   return (
     <ChakraProvider theme={theme}>
       <React.Suspense fallback={<Spinner />}>
         <Router>
+          {isAuthenticated && <Header />}
           <Container maxW="container.xl">
             <Switch>
-              <Route path="/" exact component={Login} />
-              <Header />
+              <Route path="/" exact render={(props) => <Login handleLogin={handleLogin} />} />
               <Route component={Home} path="/home" />
               <Route component={About} path="/about" />
               <Route component={NotFound} path="/404" />

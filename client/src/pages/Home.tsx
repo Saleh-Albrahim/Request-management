@@ -1,10 +1,12 @@
-import { Box, Text } from '@chakra-ui/react';
+import { Box } from '@chakra-ui/react';
 
-const Home: React.FC = () => (
-  <Box>
-    <Text fontSize="xl" textAlign="center">
-      الرئيسية
-    </Text>
-  </Box>
-);
+import Sidebar from '../components/Sidebar';
+
+const Home: React.FC = () => {
+  return (
+    <Box>
+      <Sidebar />
+    </Box>
+  );
+};
 export default Home;

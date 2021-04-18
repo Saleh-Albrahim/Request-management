@@ -38,7 +38,11 @@
     ],
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/sort-type-union-intersection-members": "error",
-    "@typescript-eslint/member-ordering": "error",
+    "@typescript-eslint/ban-types": "warn",
+    "react/no-unused-prop-types": "warn",
+    "arrow-body-style": "warn",
+    "@typescript-eslint/no-shadow": "warn",
+    "@typescript-eslint/member-ordering": "warn",
     "comma-dangle": "off",
     "global-require": "off",
     "max-len": [
