@@ -7,6 +7,8 @@ import hpp from 'hpp';
 import cors from 'cors';
 import helmet from 'helmet';
 import path from 'path';
+import errorHandler from './middleware/error';
+import cookieParser from 'cookie-parser';
 import authRoute from './routes/authRoute';
 import mainRoute from './routes/mainRoute';
 
@@ -34,9 +36,15 @@ app.use(cors());
 // Set security headers
 app.use(helmet());
 
+// Cookie parser
+app.use(cookieParser());
+
 // Routes
 app.use('/api/v1/', mainRoute);
 app.use('/api/v1/auth', authRoute);
+
+// Handle all the errors
+app.use(errorHandler);
 
 const PORT: number = (process.env.PORT as any) || 5000;
 

@@ -17,6 +17,12 @@
   },
   "plugins": ["eslint-plugin-import-helpers", "sort-destructure-keys"],
   "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "sort-destructure-keys/sort-destructure-keys": [
       "error",
       {

@@ -58,7 +58,7 @@ export const getLoginUser = asycHandler(async (req: any, res: Response, next: Ne
         token = req.cookies.token;
     }
 
-    if (token) {
+    if (!token) {
         return next();
     }
     try {

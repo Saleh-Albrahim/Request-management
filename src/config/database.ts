@@ -2,7 +2,7 @@ import { Sequelize } from 'sequelize';
 
 const db = new Sequelize('request', 'sa', '123', {
     host: 'localhost',
-    port: 1435,
+    port: 6987,
     dialect: 'mssql',
 });
 

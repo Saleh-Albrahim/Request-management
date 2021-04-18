@@ -68,6 +68,8 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
     if (req.user) {
         return res.redirect('/');
     }
+
+    console.log(`req.body`, req.body);
     let { username, password, rememberMe } = req.body;
     if (!rememberMe) {
         rememberMe = false;
@@ -84,14 +86,14 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
 
     // Check if the user exist
     if (!user) {
-        return next(new ErrorResponse(`خطأ في الايميل او كلمة المرور`, 400));
+        return next(new ErrorResponse(`خطأ في الايميل او كلمة المرور`, 401));
     }
 
     // Check the password if match or not
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-        return next(new ErrorResponse(`خطأ في الايميل او كلمة المرور`, 400));
+        return next(new ErrorResponse(`خطأ في الايميل او كلمة المرور`, 401));
     }
 
     sendTokenResponse(user, 200, res, 'مرحبا بعودتك', rememberMe);
