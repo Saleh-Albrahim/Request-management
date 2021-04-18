@@ -12,16 +12,15 @@ import theme from './theme';
 // 3. extend the theme
 
 const App: () => JSX.Element = () => {
-  const [isAuthenticated, setisAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   const handleLogin = (isAuthenticated: boolean) => {
-    setisAuthenticated(isAuthenticated);
+    setIsAuthenticated(isAuthenticated);
   };
   return (
     <ChakraProvider theme={theme}>
       <React.Suspense fallback={<Spinner />}>
         <Router>
-          {isAuthenticated && <Header />}
           <Container maxW="container.xl">
             <Switch>
               <Route path="/" exact render={(props) => <Login handleLogin={handleLogin} />} />

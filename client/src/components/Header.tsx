@@ -1,10 +1,9 @@
-import { Box, Center, IconButton, Text, Flex } from '@chakra-ui/react';
+import { Box, Center, IconButton, Text, Flex, Image } from '@chakra-ui/react';
+import Logo from '../img/logo.png';
 
 const Header = () => (
-  <Flex bg="tomato" w="100%" p={4} color="white" justifyContent="center">
-    <Center h="40px">
-      <Text fontSize="xl">نظام متابعة الأداء</Text>
-    </Center>
+  <Flex bg="#dfdfdf" w="100%" color="white" justifyContent="center" border="2px" borderColor="gray">
+    <Image marginEnd="auto" mr={10} h={120} w={120} src={Logo} alt="وزارة الدفاع" />
   </Flex>
 );
 export default Header;
