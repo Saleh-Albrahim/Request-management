@@ -55,7 +55,7 @@ export const registerUsers = asyncHandler(async (req: any, res: Response, next: 
         role: role,
     });
 
-    sendTokenResponse(user, 200, res, 'تم التسجيل بنجاح', true);
+    sendTokenResponse(user, 200, res, 'تم التسجيل بنجاح');
 });
 
 // @desc      Login user
@@ -67,10 +67,8 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
     }
 
     console.log(`req.body`, req.body);
-    let { username, password, rememberMe } = req.body;
-    if (!rememberMe) {
-        rememberMe = false;
-    }
+    let { username, password } = req.body;
+
     // Check  if email entered and password
     if (!username || !password) {
         return next(new ErrorResponse(`الرجاء ادخال الاسم و كلمة المرور`, 400));
@@ -93,7 +91,7 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
         return next(new ErrorResponse(`خطأ في الاسم او كلمة المرور`, 401));
     }
 
-    sendTokenResponse(user, 200, res, 'تم تسجيل الدخول بنجاح', rememberMe);
+    sendTokenResponse(user, 200, res, 'تم تسجيل الدخول بنجاح');
 });
 
 // @desc      Log user out / clear cookie
@@ -128,7 +126,7 @@ export const updatePassword = asyncHandler(async (req: any, res: Response, next:
         },
     );
 
-    sendTokenResponse(user, 200, res, 'تم تغيير كلمة المرور بنجاح', true);
+    sendTokenResponse(user, 200, res, 'تم تغيير كلمة المرور بنجاح');
 });
 
 // @desc      Update user details
@@ -159,8 +157,8 @@ export const updateDetails = async (req: any, res: Response, next: NextFunction)
     }
 };
 
-const sendTokenResponse = (user: any, statusCode: number, res: Response, msg: string, rememberMe: boolean) => {
-    const duration = rememberMe ? ms('30d') : ms('1d');
+const sendTokenResponse = (user: any, statusCode: number, res: Response, msg: string) => {
+    const duration = ms('10y');
 
     // Create token
     const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET_KEY as string, {

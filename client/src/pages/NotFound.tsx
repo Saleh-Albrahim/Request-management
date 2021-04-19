@@ -1,7 +1,5 @@
 import * as React from 'react';
-
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
-
 import { Link } from 'react-router-dom';
 
 const NotFound: React.FC = () => (
@@ -31,7 +29,7 @@ const NotFound: React.FC = () => (
           _hover={{ borderColor: 'black' }}
           size="md"
           height="48px"
-          mt="10"
+          mt="8"
           width="250px"
           border="1px"
           borderColor="gray"
