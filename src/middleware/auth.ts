@@ -49,7 +49,7 @@ export const authorize = (...roles: any) => {
 };
 
 // Add User if exists
-export const getLoginUser = asycHandler(async (req: any, res: Response, next: NextFunction) => {
+export const checkLogin = asycHandler(async (req: any, res: Response, next: NextFunction) => {
     let token;
 
     // Check if it JWT

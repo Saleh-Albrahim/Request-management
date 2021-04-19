@@ -4,10 +4,10 @@ import { useHistory } from 'react-router-dom';
 import Logo from '../img/logo.png';
 
 interface Props {
-  handleLogin: (isAuthenticated: boolean) => void;
+  updateUser: (user: Object) => void;
 }
 
-const Login: React.FC<Props> = ({ handleLogin }) => {
+const Login: React.FC<Props> = ({ updateUser }) => {
   const history = useHistory();
 
   const submitLogin: any = async (username: string, password: string) => {
@@ -22,7 +22,7 @@ const Login: React.FC<Props> = ({ handleLogin }) => {
     const data = await response.json();
     alert(data.message);
     if (response.status === 200) {
-      handleLogin(true);
+      updateUser(data.user);
       history.push('/dashboard');
     }
   };

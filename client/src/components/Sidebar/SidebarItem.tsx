@@ -12,12 +12,12 @@ const buttonStyle: any = {
 };
 
 interface Props {
-  changeScene: (value: string) => void;
+  updateScene: (value: string) => void;
   value: string;
   currentScene: string;
 }
 
-const SideBarItem = ({ changeScene, currentScene, value }: Props) => {
+const SideBarItem = ({ updateScene, currentScene, value }: Props) => {
   let selected;
   if (value === currentScene) {
     selected = {
@@ -33,7 +33,7 @@ const SideBarItem = ({ changeScene, currentScene, value }: Props) => {
     };
   }
   return (
-    <Button {...selected} {...buttonStyle} onClick={(e: any) => changeScene(e.target.innerText)}>
+    <Button {...selected} {...buttonStyle} onClick={(e: any) => updateScene(e.target.innerText)}>
       {value}
     </Button>
   );

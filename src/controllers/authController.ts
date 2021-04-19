@@ -11,9 +11,14 @@ import jwt from 'jsonwebtoken';
 // @route     GET /auth/user
 // @access    Public
 export const getLoginUser = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
+    console.log(`req.user`, req.user.dataValues);
+
+    const user = {
+        username: req.user.dataValues.username,
+        role: req.user.dataValues.role,
+    };
     return res.json({
-        username: req.user.username,
-        role: req.user.role,
+        user,
     });
 });
 
@@ -94,7 +99,9 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
 // @access    Private
 export const logout = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
     await res.clearCookie('token');
-    res.redirect('/');
+    res.json({
+        message: 'تم تسجيل الخروج بنجاح',
+    });
 });
 
 // @desc      Update password
@@ -160,8 +167,8 @@ const sendTokenResponse = (user: any, statusCode: number, res: Response, msg: st
 
     const options = {
         expires: new Date(Date.now() + duration),
-        httpOnly: false,
-        secure: false,
+        httpOnly: true,
+        secure: true,
     };
 
     if (process.env.NODE_ENV == 'production') {
@@ -169,7 +176,7 @@ const sendTokenResponse = (user: any, statusCode: number, res: Response, msg: st
     }
 
     res.status(statusCode).cookie('token', token, options).json({
-        success: true,
+        user,
         message: msg,
     });
 };

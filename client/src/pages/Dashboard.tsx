@@ -6,11 +6,16 @@ import Requests from './Scenes/Requests';
 import Home from './Scenes/Home';
 import Users from './Scenes/Users';
 
-const Dashboard: React.FC = () => {
+interface Props {
+  user: Object;
+  updateUser: (user: Object) => void;
+}
+
+const Dashboard: React.FC<Props> = ({ user, updateUser }) => {
   const [scene, setScene] = useState('الرئيسية');
   const [page, setPage] = useState(<Home />);
 
-  const changeScene = (value: string) => {
+  const updateScene = (value: string) => {
     setScene(value);
     switch (value) {
       case 'الرئيسية':
@@ -30,7 +35,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <Flex alignItems="center" mr="250px" justifyContent="center" height="100vh">
-      <Sidebar currentScene={scene} changeScene={changeScene} />
+      <Sidebar user={user} updateScene={updateScene} updateUser={updateUser} currentScene={scene} />
       <Box
         width="100%"
         height="97%"
