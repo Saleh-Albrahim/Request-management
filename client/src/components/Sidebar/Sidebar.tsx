@@ -1,5 +1,5 @@
-import { Box, Button, Image, VStack, Text, Divider } from '@chakra-ui/react';
-import Logo from '../img/logo.png';
+import { Box, Image, VStack, Text } from '@chakra-ui/react';
+import Logo from '../../img/logo.png';
 import SideBarItem from './SidebarItems';
 
 const sidebarData = ['الرئيسية', 'إدارة الطلبات', 'إدارة الاعضاء', 'تسجيل الخروج'];

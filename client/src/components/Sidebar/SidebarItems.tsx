@@ -2,7 +2,7 @@ import { Button } from '@chakra-ui/react';
 
 const buttonStyle: any = {
   height: '60px',
-  width: '245px',
+  width: '240px',
   fontSize: '20px',
   backgroundColor: '#F0F0F0',
   borderColor: '#F0F0F0',

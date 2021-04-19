@@ -1,6 +1,6 @@
 import { Flex, VStack, Input, FormControl, FormLabel, Button, Image, Text, Box } from '@chakra-ui/react';
 import React, { useState } from 'react';
-import { RouteComponentProps, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Logo from '../img/logo.png';
 
 interface Props {
@@ -48,6 +48,7 @@ const Login: React.FC<Props> = ({ handleLogin }) => {
               type="text"
               fontSize="20px"
               width="400px"
+              boxShadow="md"
               value={username}
               _hover={{ borderColor: 'black' }}
               onChange={(e) => setUsername(e.target.value)}
@@ -63,6 +64,7 @@ const Login: React.FC<Props> = ({ handleLogin }) => {
               borderColor="gray"
               type="password"
               value={password}
+              boxShadow="md"
               width="400px"
               _hover={{ borderColor: 'black' }}
               onChange={(e) => setPassword(e.target.value)}
@@ -73,8 +75,10 @@ const Login: React.FC<Props> = ({ handleLogin }) => {
             size="md"
             height="48px"
             width="250px"
-            border="2px"
+            border="1px"
             borderColor="gray"
+            color="#2E2E2E"
+            boxShadow="md"
             backgroundColor="#dfdfdf"
             onClick={() => {
               submitLogin(username, password);
