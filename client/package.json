@@ -18,7 +18,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "stylis": "^4.0.10",
-    "stylis-plugin-rtl": "^2.0.2"
+    "stylis-plugin-rtl": "^2.0.2",
+    "sweetalert2": "^10.16.4",
+    "sweetalert2-react-content": "^3.3.1"
   },
   "scripts": {
     "start": "react-scripts start",

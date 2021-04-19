@@ -6,12 +6,23 @@ import { Link } from 'react-router-dom';
 
 const NotFound: React.FC = () => (
   <Flex alignItems="center" justifyContent="center" height="100vh">
-    <Box px="20" py="10" rounded="md" backgroundColor="#dfdfdf" border="10px" borderColor="black" boxShadow="dark-lg">
-      <Text fontSize="xl" textAlign="center">
+    <Box
+      alignItems="center"
+      rounded="md"
+      backgroundColor="#dfdfdf"
+      border="10px"
+      p="20"
+      borderColor="black"
+      boxShadow="dark-lg"
+    >
+      <Text fontSize="70px" textAlign="center">
+        404
+      </Text>
+      <Text fontSize="xl" mt="8" textAlign="center">
         الصفحة المطلوبة غير موجودة
       </Text>
 
-      <Text fontSize="lg" mt="5" textAlign="center">
+      <Text fontSize="lg" mt="3" textAlign="center">
         الرجاء التأكد من الرابط المدخل
       </Text>
 
@@ -20,11 +31,13 @@ const NotFound: React.FC = () => (
           _hover={{ borderColor: 'black' }}
           size="md"
           height="48px"
+          mt="10"
           width="250px"
-          border="2px"
+          border="1px"
           borderColor="gray"
+          color="#2E2E2E"
+          boxShadow="md"
           backgroundColor="#dfdfdf"
-          mt="5"
         >
           الرجوع الى الصفحة الرئيسية
         </Button>

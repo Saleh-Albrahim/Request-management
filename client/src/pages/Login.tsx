@@ -1,6 +1,7 @@
 import { Flex, VStack, Input, FormControl, FormLabel, Button, Image, Text, Box } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { errorAlert, successAlertTimer } from '../util/alerts';
 import Logo from '../img/logo.png';
 
 interface Props {
@@ -20,12 +21,14 @@ const Login: React.FC<Props> = ({ updateUser }) => {
     });
 
     const data = await response.json();
-    alert(data.message);
+
     if (response.status === 200) {
-      console.log(`data.user`, data.user);
+      successAlertTimer(data.message);
       updateUser(data.user);
       localStorage.setItem('user', data.user);
       history.push('/dashboard');
+    } else {
+      errorAlert(data.message);
     }
   };
 

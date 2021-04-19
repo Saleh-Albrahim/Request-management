@@ -73,7 +73,7 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
     }
     // Check  if email entered and password
     if (!username || !password) {
-        return next(new ErrorResponse(`الرجاء ادخال الايميل و كلمة المرور`, 400));
+        return next(new ErrorResponse(`الرجاء ادخال الاسم و كلمة المرور`, 400));
     }
 
     // Bring the user from the DB
@@ -83,17 +83,17 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
 
     // Check if the user exist
     if (!user) {
-        return next(new ErrorResponse(`خطأ في الايميل او كلمة المرور`, 401));
+        return next(new ErrorResponse(`خطأ في الاسم او كلمة المرور`, 401));
     }
 
     // Check the password if match or not
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) {
-        return next(new ErrorResponse(`خطأ في الايميل او كلمة المرور`, 401));
+        return next(new ErrorResponse(`خطأ في الاسم او كلمة المرور`, 401));
     }
 
-    sendTokenResponse(user, 200, res, 'مرحبا بعودتك', rememberMe);
+    sendTokenResponse(user, 200, res, 'تم تسجيل الدخول بنجاح', rememberMe);
 });
 
 // @desc      Log user out / clear cookie
