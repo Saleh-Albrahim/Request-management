@@ -16,19 +16,10 @@ const App: () => JSX.Element = () => {
   const [user, setUser]: any = useState(undefined);
 
   useEffect(() => {
-    const checkToken = async () => {
-      try {
-        const response = await fetch('/api/v1/auth/user');
-        if (response.status === 200) {
-          const data = await response.json();
-          console.log(data.user);
-          setUser(data.user);
-        }
-      } catch (error) {
-        console.log(`error`, error);
-      }
-    };
-    checkToken();
+    const user = localStorage.getItem('user');
+    if (user) {
+      setUser(user);
+    }
   }, []);
 
   const updateUser = (user: Object) => {
@@ -41,7 +32,11 @@ const App: () => JSX.Element = () => {
         <Router>
           <Container maxW="container">
             <Switch>
-              <Route path="/" exact render={(props) => <Login updateUser={updateUser} />} />
+              <Route
+                path="/"
+                exact
+                render={(props) => (user ? <Redirect to="/dashboard" /> : <Login updateUser={updateUser} />)}
+              />
               <Route
                 render={(props) => (user ? <Dashboard user={user} updateUser={updateUser} /> : <Redirect to="/" />)}
                 path="/dashboard"

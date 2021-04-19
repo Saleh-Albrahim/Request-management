@@ -28,6 +28,7 @@ const Logout = ({ updateScene, updateUser }: Props) => {
       if (response.status === 200) {
         updateScene('الرئيسية');
         updateUser(undefined);
+        localStorage.removeItem('user');
         history.push('/');
       }
     } catch (error) {

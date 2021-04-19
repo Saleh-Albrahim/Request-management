@@ -22,7 +22,9 @@ const Login: React.FC<Props> = ({ updateUser }) => {
     const data = await response.json();
     alert(data.message);
     if (response.status === 200) {
+      console.log(`data.user`, data.user);
       updateUser(data.user);
+      localStorage.setItem('user', data.user);
       history.push('/dashboard');
     }
   };

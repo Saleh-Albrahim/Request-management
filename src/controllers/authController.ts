@@ -11,7 +11,9 @@ import jwt from 'jsonwebtoken';
 // @route     GET /auth/user
 // @access    Public
 export const getLoginUser = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
-    console.log(`req.user`, req.user.dataValues);
+    if (!req.user) {
+        return res.status(401).end;
+    }
 
     const user = {
         username: req.user.dataValues.username,
@@ -175,6 +177,10 @@ const sendTokenResponse = (user: any, statusCode: number, res: Response, msg: st
         options.secure = true;
     }
 
+    user = {
+        username: user.username,
+        role: user.role,
+    };
     res.status(statusCode).cookie('token', token, options).json({
         user,
         message: msg,
