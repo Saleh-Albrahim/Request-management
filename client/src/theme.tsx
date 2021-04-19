@@ -1,4 +1,3 @@
-import { mode } from '@chakra-ui/theme-tools';
 import { extendTheme } from '@chakra-ui/react';
 
 const styles = {
@@ -13,18 +12,7 @@ const styles = {
   }),
 };
 
-const components = {
-  Drawer: {
-    baseStyle: (props: any) => ({
-      dialog: {
-        bg: mode('white', '#141214')(props),
-      },
-    }),
-  },
-};
-
 const theme = extendTheme({
-  components,
   styles,
   colors: {
     gray1: '#F0F0F0',
@@ -33,6 +21,10 @@ const theme = extendTheme({
     gray4: '#888888',
     gray5: '#595959',
     gray6: '#2E2E2E',
+  },
+  fonts: {
+    heading: 'Tajawal',
+    body: 'Tajawal',
   },
 });
 

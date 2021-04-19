@@ -4,10 +4,11 @@ import { ChakraProvider, Container } from '@chakra-ui/react';
 import Header from 'components/Header';
 import Spinner from 'components/Spinner';
 import About from 'pages/About';
-import Login from 'pages/auth/Login';
-import Home from 'pages/Home';
+import Login from 'pages/Login';
+import Dashboard from 'pages/Dashboard';
 import NotFound from 'pages/NotFound';
 import theme from './theme';
+import '@fontsource/tajawal';
 
 // 3. extend the theme
 
@@ -21,10 +22,10 @@ const App: () => JSX.Element = () => {
     <ChakraProvider theme={theme}>
       <React.Suspense fallback={<Spinner />}>
         <Router>
-          <Container maxW="container.xl">
+          <Container maxW="container">
             <Switch>
               <Route path="/" exact render={(props) => <Login handleLogin={handleLogin} />} />
-              <Route component={Home} path="/home" />
+              <Route component={Dashboard} path="/dashboard" />
               <Route component={About} path="/about" />
               <Route component={NotFound} path="/404" />
               <Redirect to="/404" />

@@ -1,37 +1,34 @@
 import { Box, Button, Image, VStack, Text, Divider } from '@chakra-ui/react';
 import Logo from '../img/logo.png';
+import SideBarItem from './SidebarItems';
 
-const buttonStyle: any = {
-  height: '60px',
-  width: '245px',
-  fontSize: '20px',
-  backgroundColor: 'gray1',
-  borderRadius: '5px',
-  border: '1px solid',
-  borderColor: 'gray1',
-  _hover: { borderColor: 'black', color: 'black' },
-  color: '#595959',
-};
+const sidebarData = ['الرئيسية', 'إدارة الطلبات', 'إدارة الاعضاء', 'تسجيل الخروج'];
 
-const SidebarContent = () => (
+interface Props {
+  currentScene: string;
+  changeScene: (value: string) => void;
+}
+
+interface ContentProps {
+  changeScene: (value: string) => void;
+  currentScene: string;
+}
+const SidebarContent: React.FC<ContentProps> = ({ changeScene, currentScene }) => (
   <VStack>
-    <Button {...buttonStyle}>الرئيسية</Button>
-    <Button {...buttonStyle}>الأعضاء</Button>
-    <Button {...buttonStyle}>إدارة الاعضاء</Button>
-    <Button {...buttonStyle} position="fixed" right={0.5} bottom={2}>
-      تسجيل الخروج
-    </Button>
+    {sidebarData.map((item, index) => {
+      return <SideBarItem key={index} value={item} changeScene={changeScene} currentScene={currentScene} />;
+    })}
   </VStack>
 );
 
-const Sidebar = () => (
+const Sidebar: React.FC<Props> = ({ changeScene, currentScene }) => (
   <Box position="fixed" right={0} p={5} w="250px" top={0} h="100%" bg="gray2" border="2px" borderColor="gray">
     <VStack display="flex" justifyContent="center" alignItems="center">
       <Image m="auto" h={165} w={165} src={Logo} alt="وزارة الدفاع" />
       <Text color="gray" fontSize="28px">
         نظام متابعة الأداء
       </Text>
-      <SidebarContent />
+      <SidebarContent changeScene={changeScene} currentScene={currentScene} />
     </VStack>
   </Box>
 );

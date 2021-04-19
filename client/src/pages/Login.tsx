@@ -1,7 +1,7 @@
 import { Flex, VStack, Input, FormControl, FormLabel, Button, Image, Text, Box } from '@chakra-ui/react';
 import React, { useState } from 'react';
 import { RouteComponentProps, useHistory } from 'react-router-dom';
-import Logo from '../../img/logo.png';
+import Logo from '../img/logo.png';
 
 interface Props {
   handleLogin: (isAuthenticated: boolean) => void;
@@ -22,9 +22,8 @@ const Login: React.FC<Props> = ({ handleLogin }) => {
     const data = await response.json();
     alert(data.message);
     if (response.status === 200) {
-      // @ts-ignore
       handleLogin(true);
-      history.push('/home');
+      history.push('/dashboard');
     }
   };
 

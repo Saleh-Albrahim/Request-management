@@ -43,6 +43,7 @@
     "arrow-body-style": "warn",
     "@typescript-eslint/no-shadow": "warn",
     "@typescript-eslint/member-ordering": "warn",
+    "react/no-array-index-key": "off",
     "comma-dangle": "off",
     "global-require": "off",
     "max-len": [
