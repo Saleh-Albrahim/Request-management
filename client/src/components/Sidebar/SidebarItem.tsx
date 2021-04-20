@@ -7,8 +7,8 @@ const buttonStyle: any = {
   backgroundColor: '#F0F0F0',
   borderColor: '#F0F0F0',
   borderRadius: '5px',
-  boxShadow: 'md',
-  _hover: { borderColor: '#2E2E2E', color: '#2E2E2E' },
+  boxShadow: 'base',
+  _hover: { color: 'black', boxShadow: 'lg' },
 };
 
 interface Props {

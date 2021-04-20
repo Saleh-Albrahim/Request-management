@@ -2,7 +2,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import Sidebar from '../components/Sidebar/Sidebar';
-import Requests from './Scenes/Requests';
+import Requests from './Scenes/requests/RequestsScene';
 import Home from './Scenes/Home';
 import Users from './Scenes/Users';
 
