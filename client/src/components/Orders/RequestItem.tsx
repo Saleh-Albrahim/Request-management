@@ -2,7 +2,7 @@ import { Button, ComponentWithAs, IconProps, Text, VStack } from '@chakra-ui/rea
 import { PhoneIcon, AddIcon, WarningIcon } from '@chakra-ui/icons';
 
 const buttonStyle: any = {
-  height: '60px',
+  height: '125px',
   width: '220px',
   fontSize: '20px',
   backgroundColor: '#F0F0F0',
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const RequestItem: React.FC<Props> = ({ value, Icon }) => (
-  <Button {...buttonStyle} rounded="md" height="125px">
+  <Button {...buttonStyle} rounded="md">
     <VStack>
       <Icon color="gray" w={7} h={7} mb={3} />
       <Text color="gray" fontSize="20px">

@@ -1,6 +1,6 @@
-import { Text, Flex, SimpleGrid, Box } from '@chakra-ui/react';
+import { SimpleGrid } from '@chakra-ui/react';
 import { ViewIcon, AddIcon } from '@chakra-ui/icons';
-import RequestItem from '../../../components/Requests/RequestItem';
+import RequestItem from '../../components/Orders/RequestItem';
 
 const Requests: React.FC = () => (
   <SimpleGrid columns={[1, null, 5]} spacing={10} p={10}>

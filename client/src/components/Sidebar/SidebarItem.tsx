@@ -21,8 +21,8 @@ const SideBarItem = ({ updateScene, currentScene, value }: Props) => {
   let selected;
   if (value === currentScene) {
     selected = {
-      borderColor: '#2E2E2E',
-      color: '#2E2E2E',
+      borderColor: 'black',
+      color: 'black',
       border: '2px solid',
     };
   } else {

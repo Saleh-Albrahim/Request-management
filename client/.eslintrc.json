@@ -45,6 +45,7 @@
     "@typescript-eslint/member-ordering": "warn",
     "react/no-array-index-key": "off",
     "sort-destructure-keys/sort-destructure-keys": "off",
+    "no-else-return": "off",
     "comma-dangle": "off",
     "global-require": "off",
     "max-len": [

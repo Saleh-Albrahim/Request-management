@@ -2,9 +2,9 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import Sidebar from '../components/Sidebar/Sidebar';
-import Requests from './Scenes/requests/RequestsScene';
-import Home from './Scenes/Home';
-import Users from './Scenes/Users';
+import Requests from '../scenes/orders/OrdersMain';
+import Home from '../scenes/Home';
+import Users from '../scenes/Users';
 
 interface Props {
   user: Object;
@@ -13,22 +13,22 @@ interface Props {
 
 const Dashboard: React.FC<Props> = ({ user, updateUser }) => {
   const [scene, setScene] = useState('الرئيسية');
-  const [page, setPage] = useState(<Home />);
+  const [Stage, setStage] = useState(<Home />);
 
   const updateScene = (value: string) => {
     setScene(value);
     switch (value) {
       case 'الرئيسية':
-        setPage(<Home />);
+        setStage(<Home />);
         break;
       case 'إدارة الطلبات':
-        setPage(<Requests />);
+        setStage(<Requests />);
         break;
       case 'إدارة الاعضاء':
-        setPage(<Users />);
+        setStage(<Users />);
         break;
       default:
-        setPage(<Home />);
+        setStage(<Home />);
         break;
     }
   };
@@ -45,7 +45,7 @@ const Dashboard: React.FC<Props> = ({ user, updateUser }) => {
         borderColor="black"
         boxShadow="dark-lg"
       >
-        {page}
+        {Stage}
       </Box>
     </Flex>
   );
