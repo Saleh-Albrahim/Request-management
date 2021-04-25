@@ -1,12 +1,9 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import bcrypt from 'bcryptjs';
-import shortid from 'shortid';
 
-shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
-
-const createUserTable = async (sequelize: Sequelize) => {
-    const User = sequelize.define(
-        'user',
+const createUsersTable = async (sequelize: Sequelize) => {
+    const Users = sequelize.define(
+        'users',
         {
             id: {
                 type: DataTypes.UUID,
@@ -33,8 +30,8 @@ const createUserTable = async (sequelize: Sequelize) => {
         },
     );
 
-    User.sync().then(() => {
-        console.log('User table is created'.green.bold);
+    Users.sync({ force: true }).then(() => {
+        console.log('Users table is created'.green.bold);
     });
 
     const hashPasswordHook = async (instance: any) => {
@@ -48,10 +45,10 @@ const createUserTable = async (sequelize: Sequelize) => {
         instance.set('password', hash);
     };
 
-    User.beforeCreate(hashPasswordHook);
-    User.beforeUpdate(hashPasswordHook);
+    Users.beforeCreate(hashPasswordHook);
+    Users.beforeUpdate(hashPasswordHook);
 
-    return User;
+    return Users;
 };
 
-export default createUserTable;
+export default createUsersTable;

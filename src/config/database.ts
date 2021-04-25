@@ -1,18 +1,35 @@
 import { Sequelize } from 'sequelize';
-import createUserTable from '../models/User';
+import createUsersTable from '../models/Users';
+import createOrderTypeTable from '../models/OrderType';
+import createOrdersTable from '../models/Orders';
 
 export const db: any = {};
 
 const connectDB = async () => {
     try {
-        const sequelize = new Sequelize('request', 'sa', '123', {
-            host: 'localhost',
-            port: 6987,
-            dialect: 'mssql',
+        // @ts-expect-error
+        const sequelize = new Sequelize(process.env.DATABASE_NAME, process.env.DATABASE_USERNAME, process.env.DATABASE_PASSWORD, {
+            host: process.env.DATABASE_HOST,
+            port: process.env.DATABASE_PORT,
+            dialect: process.env.DATABASE_DIALECT,
         });
 
         db.sequelize = sequelize;
-        db.User = await createUserTable(sequelize);
+        db.Users = await createUsersTable(sequelize);
+        db.OrderType = await createOrderTypeTable(sequelize);
+        db.Orders = await createOrdersTable(sequelize);
+
+        db.Users.hasMany(db.Orders, {
+            onDelete: 'NO ACTION',
+            onUpdate: 'CASCADE',
+        });
+        db.Orders.belongsTo(db.Users);
+
+        db.OrderType.hasMany(db.Orders, {
+            onDelete: 'NO ACTION',
+            onUpdate: 'CASCADE',
+        });
+        db.Orders.belongsTo(db.OrderType);
 
         // Check the database connection
         await sequelize.authenticate();

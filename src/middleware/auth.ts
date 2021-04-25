@@ -26,7 +26,7 @@ export const protect = asycHandler(async (req: any, res: Response, next: NextFun
         });
 
         // Get the user with ID
-        req.user = await db.User.findOne({
+        req.user = await db.Users.findOne({
             where: {
                 id: decoded.id,
             },
@@ -68,7 +68,7 @@ export const checkLogin = asycHandler(async (req: any, res: Response, next: Next
             ignoreExpiration: true,
         });
         // Get the user with ID
-        req.user = await db.User.findByPk(decoded.id);
+        req.user = await db.Users.findByPk(decoded.id);
         next();
     } catch (err) {
         console.log('err', err);
