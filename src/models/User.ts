@@ -1,49 +1,57 @@
-import { DataTypes } from 'sequelize';
+import { Sequelize, DataTypes } from 'sequelize';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import crypto from 'crypto';
 import shortid from 'shortid';
-import ms from 'ms';
-import db from '../config/database';
 
 shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 
-const User = db.define('User', {
-    id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-    },
-    username: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-    role: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        defaultValue: () => 'user',
-    },
-    password: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    },
-});
+const createUserTable = async (sequelize: Sequelize) => {
+    const User = sequelize.define(
+        'user',
+        {
+            id: {
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
+                primaryKey: true,
+            },
+            username: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+            role: {
+                type: DataTypes.ENUM,
+                values: ['user', 'admin', 'disabled'],
+                allowNull: false,
+                defaultValue: () => 'user',
+            },
+            password: {
+                type: DataTypes.STRING,
+                allowNull: false,
+            },
+        },
+        {
+            underscored: true,
+        },
+    );
 
-User.sync().then(() => {
-    console.log('User table is created'.cyan.bold);
-});
+    User.sync().then(() => {
+        console.log('User table is created'.green.bold);
+    });
 
-const hashPasswordHook = async (instance: any) => {
-    if (!instance.changed('password')) return;
+    const hashPasswordHook = async (instance: any) => {
+        if (!instance.changed('password')) return;
 
-    // Generate salt with 10 rounds
-    const salt = await bcrypt.genSalt(10);
+        // Generate salt with 10 rounds
+        const salt = await bcrypt.genSalt(10);
 
-    //  Hash the password
-    const hash = await bcrypt.hash(instance.get('password'), salt);
-    instance.set('password', hash);
+        //  Hash the password
+        const hash = await bcrypt.hash(instance.get('password'), salt);
+        instance.set('password', hash);
+    };
+
+    User.beforeCreate(hashPasswordHook);
+    User.beforeUpdate(hashPasswordHook);
+
+    return User;
 };
-User.beforeCreate(hashPasswordHook);
-User.beforeUpdate(hashPasswordHook);
 
-export default User;
+export default createUserTable;

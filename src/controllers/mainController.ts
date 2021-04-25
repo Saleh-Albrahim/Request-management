@@ -1,5 +1,4 @@
 import ErrorResponse from '../utils/errorResponse';
-import PollModel from '../models/PollModel';
 import asyncHandler from '../middleware/async';
 import { Request, Response, NextFunction } from 'express';
 

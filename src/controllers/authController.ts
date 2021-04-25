@@ -1,6 +1,6 @@
 import crypto from 'crypto';
 import asyncHandler from '../middleware/async';
-import User from '../models/User';
+import { db } from '../config/database';
 import ErrorResponse from '../utils/errorResponse';
 import ms from 'ms';
 import { Request, Response, NextFunction } from 'express';
@@ -38,7 +38,7 @@ export const registerUsers = asyncHandler(async (req: any, res: Response, next: 
     }
 
     // Check if the username exists
-    const userCheck = await User.findOne({
+    const userCheck = await db.User.findOne({
         where: {
             username,
         },
@@ -49,7 +49,7 @@ export const registerUsers = asyncHandler(async (req: any, res: Response, next: 
     }
 
     // Create user in the db
-    const user: any = await User.create({
+    const user: any = await db.User.create({
         username: username,
         password: password,
         role: role,
@@ -75,7 +75,7 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
     }
 
     // Bring the user from the DB
-    const user: any = await User.findOne({
+    const user: any = await db.User.findOne({
         where: { username: username },
     });
 
@@ -110,14 +110,14 @@ export const logout = asyncHandler(async (req: any, res: Response, next: NextFun
 export const updatePassword = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
     const { oldPassword, newPassword } = req.body;
 
-    const user: any = await User.findByPk(req.user.id);
+    const user: any = await db.User.findByPk(req.user.id);
 
     const isMatch = await bcrypt.compare(oldPassword, user.password);
 
     if (!isMatch) {
         return next(new ErrorResponse('خطأ في كلمة المرور السابقة', 401));
     }
-    await User.update(
+    await db.User.update(
         { password: newPassword },
         {
             where: {
@@ -139,7 +139,7 @@ export const updateDetails = async (req: any, res: Response, next: NextFunction)
             role: req.body.role,
         };
 
-        await User.update(
+        await db.User.update(
             { filesToUpdate },
             {
                 where: {

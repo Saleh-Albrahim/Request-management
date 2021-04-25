@@ -2,7 +2,7 @@ import express, { Application, Request, Response, NextFunction } from 'express';
 import 'colors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
-import db from './config/database';
+import connectDB from './config/database';
 import hpp from 'hpp';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -18,14 +18,11 @@ dotenv.config({ path: path.join(__dirname, 'config/config.env') });
 // Init the express server
 const app: Application = express();
 
-// Check the database connection
-db.authenticate()
-    .then(() => console.log(`Database connected ...`.cyan.bold))
-    .catch((error) => console.log(`${error}`.red.bold));
-
 app.use(express.json());
 
 app.use(morgan('short'));
+
+connectDB();
 
 // Prevent http param pollution
 app.use(hpp());

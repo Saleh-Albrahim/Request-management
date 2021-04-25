@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import asycHandler from './async';
 import ErrorResponse from '../utils/errorResponse';
-import User from '../models/User';
+import { db } from '../config/database';
 import { Request, Response, NextFunction } from 'express';
 
 // Protect routes
@@ -26,7 +26,7 @@ export const protect = asycHandler(async (req: any, res: Response, next: NextFun
         });
 
         // Get the user with ID
-        req.user = await User.findOne({
+        req.user = await db.User.findOne({
             where: {
                 id: decoded.id,
             },
@@ -68,7 +68,7 @@ export const checkLogin = asycHandler(async (req: any, res: Response, next: Next
             ignoreExpiration: true,
         });
         // Get the user with ID
-        req.user = await User.findByPk(decoded.id);
+        req.user = await db.User.findByPk(decoded.id);
         next();
     } catch (err) {
         console.log('err', err);
