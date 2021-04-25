@@ -38,6 +38,8 @@ export const getLoginUser = asyncHandler(async (req: any, res: Response, next: N
 export const registerUsers = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
     let { username, password, role } = req.body;
 
+    // TODO: Handle database errors
+
     if (!username || !password || !role) {
         return next(new ErrorResponse(`الرجاء ادخال الاسم و الايميل و كلمة المرور`, 400));
     }

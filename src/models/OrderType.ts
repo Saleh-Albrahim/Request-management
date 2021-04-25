@@ -2,8 +2,6 @@ import { timeStamp } from 'node:console';
 import { Sequelize, DataTypes } from 'sequelize';
 import shortid from 'shortid';
 
-shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
-
 const createOrderTypeTable = async (sequelize: Sequelize) => {
     const OrderType = sequelize.define(
         'OrderType',

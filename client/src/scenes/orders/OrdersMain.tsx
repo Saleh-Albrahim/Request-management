@@ -1,6 +1,7 @@
 import { Flex, Box, Button, useDisclosure } from '@chakra-ui/react';
 import { useState, useEffect } from 'react';
 import { AddIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import AddOrder from 'components/Orders/AddOrder';
 import OrdersTable from '../../components/Orders/OrdersTable';
 
 const buttonStyle: any = {
@@ -21,12 +22,9 @@ const OrdersMain: React.FC = () => {
 
   const [option, setOption] = useState('');
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen: isAddOrderOpen, onOpen: onAddOrderOpen, onClose: onAddOrderClose } = useDisclosure();
 
   const renderActions = () => {
-    const date = new Date();
-
-    console.log(`date`, new Date().toJSON().slice(0, 10).replace(/-/g, '/'));
     return (
       <Flex
         bg="gray.200"
@@ -39,7 +37,7 @@ const OrdersMain: React.FC = () => {
         gridColumn={`1 / span ${15}`}
         overflow="hidden"
       >
-        <Button onClick={onOpen} {...buttonStyle} leftIcon={<AddIcon color="black" />}>
+        <Button onClick={onAddOrderOpen} {...buttonStyle} leftIcon={<AddIcon color="black" />}>
           إضافة طلب جديد
         </Button>
         <Button {...buttonStyle} leftIcon={<EditIcon color="black" />}>
@@ -59,7 +57,6 @@ const OrdersMain: React.FC = () => {
       if (response.status === 200) {
         const data = await response.json();
 
-        console.log(`Table data`, data);
         setData(data);
       }
     };
@@ -75,7 +72,6 @@ const OrdersMain: React.FC = () => {
 
       if (response.status === 200) {
         const data = await response.json();
-        console.log(`select data`, data);
         setOrderTypes(data);
       }
     };
@@ -91,6 +87,7 @@ const OrdersMain: React.FC = () => {
         orderTypes={orderTypes}
         updateData={(option: string) => setOption(option)}
       />
+      <AddOrder isOpen={isAddOrderOpen} onOpen={onAddOrderOpen} onClose={onAddOrderClose} orderTypes={orderTypes} />
     </Box>
   );
 };

@@ -1,8 +1,6 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import shortid from 'shortid';
 
-shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
-
 const createOrdersTable = async (sequelize: Sequelize) => {
     const Orders = sequelize.define(
         'Orders',

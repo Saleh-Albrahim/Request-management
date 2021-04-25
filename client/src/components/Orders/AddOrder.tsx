@@ -20,9 +20,10 @@ interface Props {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  orderTypes: Array<Object>;
 }
 
-const AddOrder: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
+const AddOrder: React.FC<Props> = ({ isOpen, onOpen, onClose, orderTypes }) => {
   return (
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size="4xl" closeOnOverlayClick={false}>
@@ -38,20 +39,22 @@ const AddOrder: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
                   نوع الطلب :
                 </FormLabel>
                 <Select
-                  placeholder="جميع انواع الطلبات"
-                  css={{ 'text-indent': '15px' }}
+                  sx={{ 'text-indent': '15px' }}
                   outlineColor="black"
                   focusBorderColor="none"
                   variant="outline"
+                  height="48px"
                   fontSize="15px"
                   borderColor="gray"
                   boxShadow="base"
                   width="500px"
                   _hover={{ borderColor: 'black' }}
                 >
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
+                  {orderTypes.map((type: any) => (
+                    <option key={type.id} id={type.id}>
+                      {type.name}
+                    </option>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl mt={3}>
@@ -59,19 +62,22 @@ const AddOrder: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
                   العضو المسؤول :
                 </FormLabel>
                 <Select
-                  sx={{ textIndent: '15px' }}
+                  sx={{ 'text-indent': '15px' }}
                   outlineColor="black"
                   focusBorderColor="none"
                   variant="outline"
+                  height="48px"
                   fontSize="15px"
                   borderColor="gray"
                   boxShadow="base"
                   width="500px"
                   _hover={{ borderColor: 'black' }}
                 >
-                  <option value="option1">Option 1</option>
-                  <option value="option2">Option 2</option>
-                  <option value="option3">Option 3</option>
+                  {orderTypes.map((type: any) => (
+                    <option key={type.id} id={type.id}>
+                      {type.name}
+                    </option>
+                  ))}
                 </Select>
               </FormControl>
               <FormControl mt={3}>

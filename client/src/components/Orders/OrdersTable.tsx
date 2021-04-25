@@ -183,13 +183,17 @@ const DataGrid: React.FC<Props> = ({ orderTypes, updateData, data, renderActions
         height="48px"
         fontSize="20px"
         borderColor="gray"
-        onChange={(e) => updateData(e.target.value)}
+        onChange={(e) => {
+          updateData(e.target[e.target.selectedIndex].id);
+        }}
         boxShadow="base"
         width="500px"
         _hover={{ borderColor: 'black' }}
       >
         {orderTypes.map((type: any) => (
-          <option key={type.id}>{type.name}</option>
+          <option key={type.id} id={type.id}>
+            {type.name}
+          </option>
         ))}
       </Select>
       <Grid
@@ -206,7 +210,6 @@ const DataGrid: React.FC<Props> = ({ orderTypes, updateData, data, renderActions
         {renderFooter()}
         {renderActions()}
       </Grid>
-      <AddOrder isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
     </VStack>
   );
 };

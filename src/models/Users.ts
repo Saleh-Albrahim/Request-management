@@ -2,8 +2,6 @@ import { Sequelize, DataTypes } from 'sequelize';
 import bcrypt from 'bcryptjs';
 import shortid from 'shortid';
 
-shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
-
 const createUsersTable = async (sequelize: Sequelize) => {
     const Users = sequelize.define(
         'users',

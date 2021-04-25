@@ -20,11 +20,14 @@ export const getOrdersType = asyncHandler(async (req: Request, res: Response, ne
 export const getOrders = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const typeID = req.query.type;
 
+    console.log(`typeID`, typeID);
+
     let orders = [];
 
     if (!typeID) {
         orders = await db.Orders.findAll({
             raw: true,
+            order: [['createdAt', 'ASC']],
             include: [
                 {
                     model: db.OrderType,
@@ -39,6 +42,7 @@ export const getOrders = asyncHandler(async (req: Request, res: Response, next: 
     } else {
         orders = await db.Orders.findAll({
             raw: true,
+            order: [['createdAt', 'ASC']],
             where: {
                 order_type_id: typeID,
             },
