@@ -7,7 +7,9 @@ import { db } from '../config/database';
 // @route   GET /orders/type
 // @access    Private
 export const getOrdersType = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const types = await db.OrderType.findAll();
+    const types = await db.OrderType.findAll({
+        raw: true,
+    });
 
     res.json(types);
 });
@@ -16,13 +18,42 @@ export const getOrdersType = asyncHandler(async (req: Request, res: Response, ne
 // @route   GET /orders/:type
 // @access    Private
 export const getOrders = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
-    const typeID = req.params.type;
+    const typeID = req.query.type;
 
-    const orders = await db.Orders.findAll({
-        where: {
-            order_type_id: typeID,
-        },
-    });
+    let orders = [];
+
+    if (!typeID) {
+        orders = await db.Orders.findAll({
+            raw: true,
+            include: [
+                {
+                    model: db.OrderType,
+                    attributes: ['id', 'name'],
+                },
+                {
+                    model: db.Users,
+                    attributes: ['id', 'username'],
+                },
+            ],
+        });
+    } else {
+        orders = await db.Orders.findAll({
+            raw: true,
+            where: {
+                order_type_id: typeID,
+            },
+            include: [
+                {
+                    model: db.OrderType,
+                    attributes: ['id', 'name'],
+                },
+                {
+                    model: db.Users,
+                    attributes: ['id', 'username'],
+                },
+            ],
+        });
+    }
 
     res.json(orders);
 });

@@ -22,14 +22,16 @@ const connectDB = async () => {
         db.Users.hasMany(db.Orders, {
             onDelete: 'NO ACTION',
             onUpdate: 'CASCADE',
+            foreignKey: 'user_id',
         });
-        db.Orders.belongsTo(db.Users);
+        db.Orders.belongsTo(db.Users, { foreignKey: 'user_id' });
 
         db.OrderType.hasMany(db.Orders, {
             onDelete: 'NO ACTION',
             onUpdate: 'CASCADE',
+            foreignKey: 'order_type_id',
         });
-        db.Orders.belongsTo(db.OrderType);
+        db.Orders.belongsTo(db.OrderType, { foreignKey: 'order_type_id' });
 
         // Check the database connection
         await sequelize.authenticate();

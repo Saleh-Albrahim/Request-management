@@ -1,19 +1,23 @@
+import { timeStamp } from 'node:console';
 import { Sequelize, DataTypes } from 'sequelize';
+import shortid from 'shortid';
+
+shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 
 const createOrderTypeTable = async (sequelize: Sequelize) => {
     const OrderType = sequelize.define(
         'OrderType',
         {
             id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                type: DataTypes.STRING,
+                defaultValue: shortid.generate(),
                 primaryKey: true,
             },
-            order_name: {
+            name: {
                 type: DataTypes.STRING,
                 allowNull: false,
             },
-            order_grade: {
+            grade: {
                 type: DataTypes.ENUM,
                 values: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
                 allowNull: false,

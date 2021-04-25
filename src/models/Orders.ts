@@ -1,27 +1,44 @@
 import { Sequelize, DataTypes } from 'sequelize';
+import shortid from 'shortid';
+
+shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 
 const createOrdersTable = async (sequelize: Sequelize) => {
     const Orders = sequelize.define(
         'Orders',
         {
             id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                type: DataTypes.STRING,
+                defaultValue: shortid.generate(),
                 primaryKey: true,
             },
             user_id: {
-                type: DataTypes.UUID,
+                type: DataTypes.STRING,
+                references: {
+                    model: 'users',
+                    key: 'id',
+                },
             },
             order_type_id: {
-                type: DataTypes.UUID,
-            },
-            order_status: {
                 type: DataTypes.STRING,
+                references: {
+                    model: 'order_types',
+                    key: 'id',
+                },
+            },
+            status: {
+                type: DataTypes.ENUM,
+                values: ['مكتمل', 'قيد التنفيذ', 'ملغا', 'مؤجل'],
                 allowNull: false,
             },
             notes: {
                 type: DataTypes.TEXT,
+                defaultValue: 'لا يوجد',
                 allowNull: true,
+            },
+            date: {
+                type: DataTypes.DATEONLY,
+                defaultValue: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
             },
         },
         {

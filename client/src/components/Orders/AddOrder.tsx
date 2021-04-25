@@ -59,8 +59,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onOpen, onClose }) => {
                   العضو المسؤول :
                 </FormLabel>
                 <Select
-                  placeholder="العضو المسؤول"
-                  css={{ 'text-indent': '15px' }}
+                  sx={{ textIndent: '15px' }}
                   outlineColor="black"
                   focusBorderColor="none"
                   variant="outline"

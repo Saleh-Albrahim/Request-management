@@ -1,13 +1,16 @@
 import { Sequelize, DataTypes } from 'sequelize';
 import bcrypt from 'bcryptjs';
+import shortid from 'shortid';
+
+shortid.characters('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ$@');
 
 const createUsersTable = async (sequelize: Sequelize) => {
     const Users = sequelize.define(
         'users',
         {
             id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                type: DataTypes.STRING,
+                defaultValue: shortid.generate(),
                 primaryKey: true,
             },
             username: {
@@ -25,6 +28,7 @@ const createUsersTable = async (sequelize: Sequelize) => {
                 allowNull: false,
             },
         },
+
         {
             underscored: true,
         },
@@ -46,6 +50,7 @@ const createUsersTable = async (sequelize: Sequelize) => {
     };
 
     Users.beforeCreate(hashPasswordHook);
+
     Users.beforeUpdate(hashPasswordHook);
 
     return Users;
