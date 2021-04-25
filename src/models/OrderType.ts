@@ -24,8 +24,8 @@ const createOrderTypeTable = async (sequelize: Sequelize) => {
         },
     );
 
-    OrderType.sync({ force: true }).then(() => {
-        console.log('OrderType table is created'.green.bold);
+    OrderType.sync().then(() => {
+        console.log('OrderType table is created');
     });
 
     return OrderType;

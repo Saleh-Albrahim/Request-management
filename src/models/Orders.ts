@@ -29,8 +29,8 @@ const createOrdersTable = async (sequelize: Sequelize) => {
         },
     );
 
-    Orders.sync({ force: true }).then(() => {
-        console.log('Orders table is created'.green.bold);
+    Orders.sync().then(() => {
+        console.log('Orders table is created');
     });
 
     return Orders;

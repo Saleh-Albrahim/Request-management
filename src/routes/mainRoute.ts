@@ -3,10 +3,12 @@ const router = express.Router();
 import db from '../config/database';
 import User from '../models/Users';
 
-// // Controllers
-// import {} from '../controllers/mainController';
+// Controllers
+import { getOrdersType } from '../controllers/mainController';
 
 // Middleware
-import { protect } from '../middleware/auth';
+import { protect, authorize } from '../middleware/auth';
+
+router.route('/order/type').get(protect, authorize('admin'), getOrdersType);
 
 export default router;

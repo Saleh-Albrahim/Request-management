@@ -30,8 +30,8 @@ const createUsersTable = async (sequelize: Sequelize) => {
         },
     );
 
-    Users.sync({ force: true }).then(() => {
-        console.log('Users table is created'.green.bold);
+    Users.sync().then(() => {
+        console.log('Users table is created');
     });
 
     const hashPasswordHook = async (instance: any) => {

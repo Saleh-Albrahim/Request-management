@@ -12,13 +12,14 @@ import jwt from 'jsonwebtoken';
 // @access    Public
 export const getLoginUser = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
     if (!req.user) {
-        return res.status(401).end;
+        return next(new ErrorResponse(' غير مصرح الدخول الى هنا', 401));
     }
 
     const user = {
         username: req.user.dataValues.username,
         role: req.user.dataValues.role,
     };
+
     return res.json({
         user,
     });
@@ -66,7 +67,6 @@ export const loginUsers = asyncHandler(async (req: any, res: Response, next: Nex
         return res.redirect('/');
     }
 
-    console.log(`req.body`, req.body);
     let { username, password } = req.body;
 
     // Check  if email entered and password
