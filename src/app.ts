@@ -9,8 +9,9 @@ import helmet from 'helmet';
 import path from 'path';
 import errorHandler from './middleware/error';
 import cookieParser from 'cookie-parser';
-import authRoute from './routes/authRoute';
 import mainRoute from './routes/mainRoute';
+import ordersRoute from './routes/ordersRoute';
+import authRoute from './routes/authRoute';
 
 // Load config
 dotenv.config({ path: path.join(__dirname, 'config/config.env') });
@@ -38,6 +39,7 @@ app.use(cookieParser());
 
 // Routes
 app.use('/api/v1/', mainRoute);
+app.use('/api/v1/orders', ordersRoute);
 app.use('/api/v1/auth', authRoute);
 
 // Handle all the errors

@@ -3,18 +3,25 @@ import asyncHandler from '../middleware/async';
 import { db } from '../config/database';
 import ErrorResponse from '../utils/errorResponse';
 import ms from 'ms';
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
+// @desc      Return the users list
+// @route     GET /auth/users
+// @access    Private
+export const getUsersList = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
+    const users = await db.User.findAll();
+
+    return res.json({
+        users,
+    });
+});
+
 // @desc      Return the login user
 // @route     GET /auth/user
-// @access    Public
+// @access    Private
 export const getLoginUser = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
-    if (!req.user) {
-        return next(new ErrorResponse(' غير مصرح الدخول الى هنا', 401));
-    }
-
     const user = {
         username: req.user.dataValues.username,
         role: req.user.dataValues.role,
@@ -29,9 +36,6 @@ export const getLoginUser = asyncHandler(async (req: any, res: Response, next: N
 // @route     POST /auth/register
 // @access    Public
 export const registerUsers = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
-    if (req.user) {
-        return res.redirect('/');
-    }
     let { username, password, role } = req.body;
 
     if (!username || !password || !role) {
@@ -63,10 +67,6 @@ export const registerUsers = asyncHandler(async (req: any, res: Response, next: 
 // @route     POST /auth/login
 // @access    Public
 export const loginUsers = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
-    if (req.user) {
-        return res.redirect('/');
-    }
-
     let { username, password } = req.body;
 
     // Check  if email entered and password

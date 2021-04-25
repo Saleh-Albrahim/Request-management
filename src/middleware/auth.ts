@@ -32,6 +32,10 @@ export const protect = asycHandler(async (req: any, res: Response, next: NextFun
             },
         });
 
+        if (!req.user) {
+            return next(new ErrorResponse(' غير مصرح الدخول الى هنا ☹', 401));
+        }
+
         next();
     } catch (err) {
         return next(new ErrorResponse(' غير مصرح لك الدخول الى هنا ☹', 401));
@@ -47,35 +51,3 @@ export const authorize = (...roles: any) => {
         next();
     };
 };
-
-// Add User if exists
-export const checkLogin = asycHandler(async (req: any, res: Response, next: NextFunction) => {
-    let token;
-
-    // Check if it JWT
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-        token = req.headers.authorization.split(' ')[1];
-    } else if (req.cookies.token) {
-        token = req.cookies.token;
-    }
-
-    if (!token) {
-        return next();
-    }
-    try {
-        // Verify token
-        const decoded: any = jwt.verify(token, process.env.JWT_SECRET_KEY as string, {
-            ignoreExpiration: true,
-        });
-        // Get the user with ID
-        req.user = await db.Users.findOne({
-            where: {
-                id: decoded.id,
-            },
-        });
-        next();
-    } catch (err) {
-        console.log('err', err);
-        return next(new ErrorResponse(' غير مصرح الدخول الى هنا', 401));
-    }
-});
