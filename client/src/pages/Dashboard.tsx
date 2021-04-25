@@ -2,9 +2,10 @@ import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 
 import Sidebar from '../components/Sidebar/Sidebar';
-import Requests from '../scenes/orders/OrdersMain';
+import Orders from '../scenes/orders/OrdersMain';
 import Home from '../scenes/Home';
-import Users from '../scenes/Users';
+import Users from '../scenes/users/UsersMain';
+import Reports from '../scenes/reports/ReportMain';
 
 interface Props {
   user: Object;
@@ -22,10 +23,13 @@ const Dashboard: React.FC<Props> = ({ user, updateUser }) => {
         setStage(<Home />);
         break;
       case 'إدارة الطلبات':
-        setStage(<Requests />);
+        setStage(<Orders />);
         break;
       case 'إدارة الاعضاء':
         setStage(<Users />);
+        break;
+      case 'التقارير':
+        setStage(<Reports />);
         break;
       default:
         setStage(<Home />);
@@ -36,7 +40,7 @@ const Dashboard: React.FC<Props> = ({ user, updateUser }) => {
   return (
     <Flex alignItems="center" mr="250px" justifyContent="center" height="100vh">
       <Sidebar user={user} updateScene={updateScene} updateUser={updateUser} currentScene={scene} />
-      <Box
+      <Flex
         width="100%"
         height="97%"
         rounded="md"
@@ -44,9 +48,12 @@ const Dashboard: React.FC<Props> = ({ user, updateUser }) => {
         border="10px"
         borderColor="black"
         boxShadow="dark-lg"
+        alignItems="center"
+        justifyContent="center"
+        p={2}
       >
         {Stage}
-      </Box>
+      </Flex>
     </Flex>
   );
 };

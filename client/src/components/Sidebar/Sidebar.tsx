@@ -3,7 +3,7 @@ import Logo from '../../img/logo.png';
 import Logout from './Logout';
 import SidebarItem from './SidebarItem';
 
-const sidebarData = ['الرئيسية', 'إدارة الطلبات', 'إدارة الاعضاء'];
+const sidebarData = ['الرئيسية', 'إدارة الطلبات', 'التقارير', 'إدارة الاعضاء'];
 
 interface Props {
   currentScene: string;

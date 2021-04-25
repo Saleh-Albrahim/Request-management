@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
-import { Box, Flex, Grid, IconButton, Text, Button } from '@chakra-ui/react';
+import { useState } from 'react';
+import { Box, Flex, Grid, IconButton, Text, Button, useDisclosure, Select, VStack } from '@chakra-ui/react';
 import { ArrowRightIcon, ArrowLeftIcon, AddIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import usePagination from '../../hooks/userPagination';
 import data from '../../data/dataGrid.json';
+import AddOrder from './AddOrder';
 
 const buttonStyle: any = {
   height: '60px',
@@ -12,6 +13,7 @@ const buttonStyle: any = {
   borderColor: '#F0F0F0',
   borderRadius: '5px',
   boxShadow: 'base',
+  border: 'none',
   _hover: { color: 'black', boxShadow: 'lg' },
 };
 
@@ -38,12 +40,12 @@ const columns = [
   },
   {
     text: 'العضو المسؤول',
-    dataIndex: 'user_order',
+    dataIndex: 'order_user',
     span: 3,
   },
   {
     text: 'ملاحظات',
-    dataIndex: 'comments',
+    dataIndex: 'order_comments',
     span: 4,
   },
 ];
@@ -53,13 +55,14 @@ const DataGrid = () => {
   const [selectedId, setSelectedId] = useState(null);
   const totalSpan = columns.reduce((total, rec) => total + rec.span, 0);
 
-  const renderHeaderColumn = (text: string, start: any, span: any) => {
+  const renderHeaderColumn = (index: number, text: string, start: any, span: any) => {
     return (
       <Box
         bg="gray.200"
         px={2}
         py={2}
         minWidth={0}
+        key={index}
         backgroundColor="#dfdfdf"
         fontWeight="bold"
         borderBottom="1px solid black"
@@ -74,10 +77,13 @@ const DataGrid = () => {
   };
 
   const getDataColumnBg = (idx: any, id: any) => {
+    if (!id) {
+      return {};
+    }
     if (id === selectedId) {
       return { bg: '#BBBBBB' }; // selected row
     } else if (idx % 2 === 0) {
-      return { bg: 'gray.50' };
+      return { bg: '#F0F0F0' };
     }
     return {};
   };
@@ -86,17 +92,18 @@ const DataGrid = () => {
     return (
       <Box
         px={2}
-        py={1}
         {...getDataColumnBg(idx, id)}
-        borderBottom={1}
-        borderBottomColor="gray.200"
         minWidth={0}
         gridColumn={`${start} / span ${span}`}
         whiteSpace="nowrap"
         overflow="hidden"
         textOverflow="ellipsis"
         key={key}
-        onClick={() => setSelectedId(id)}
+        onClick={() => {
+          if (id) {
+            setSelectedId(id);
+          }
+        }}
       >
         {text}
       </Box>
@@ -106,10 +113,8 @@ const DataGrid = () => {
   const renderFooter = () => {
     return (
       <Flex
-        bg="gray.200"
-        px={2}
-        py={1}
-        minWidth={0}
+        px={5}
+        pt={3}
         backgroundColor="#dfdfdf"
         borderTop="1px solid black"
         justifyContent="space-between"
@@ -142,8 +147,8 @@ const DataGrid = () => {
     const headerCols: any = [];
     let colStart = 1;
 
-    columns.forEach((col) => {
-      headerCols.push(renderHeaderColumn(col.text, colStart, col.span));
+    columns.forEach((col, index: number) => {
+      headerCols.push(renderHeaderColumn(index, col.text, colStart, col.span));
       colStart += col.span;
     });
 
@@ -153,6 +158,7 @@ const DataGrid = () => {
   const renderDataRow = (rec: any, idx: any) => {
     let colStart = 1;
 
+    let height: any;
     return columns.map((col) => {
       const row = renderDataColumn(rec.id, rec[col.dataIndex], colStart, col.span, idx, `${idx}-${colStart}`);
       colStart += col.span;
@@ -161,14 +167,22 @@ const DataGrid = () => {
   };
 
   const renderRows = (data: any) => {
-    return data.map((rec: number, idx: number) => renderDataRow(rec, idx));
+    // TODO: better handle the layout when we have 15 element per page
+    const res = data.map((rec: number, idx: number) => renderDataRow(rec, idx));
+    let rowLength = data.length;
+    while (rowLength % 15 !== 0) {
+      res.push(renderDataRow('', ''));
+      rowLength += 1;
+    }
+    return res;
   };
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const renderActions = () => {
     return (
       <Flex
         bg="gray.200"
-        py={4}
+        py={3}
         minWidth={0}
         height="100%"
         backgroundColor="#dfdfdf"
@@ -177,34 +191,52 @@ const DataGrid = () => {
         gridColumn={`1 / span ${totalSpan}`}
         overflow="hidden"
       >
-        <Button {...buttonStyle} leftIcon={<AddIcon color="#595959" />}>
+        <Button onClick={onOpen} {...buttonStyle} leftIcon={<AddIcon color="black" />}>
           إضافة طلب جديد
         </Button>
-        <Button {...buttonStyle} leftIcon={<EditIcon color="#595959" />}>
+        <Button {...buttonStyle} leftIcon={<EditIcon color="black" />}>
           تعديل الطلب
         </Button>
-        <Button {...buttonStyle} leftIcon={<DeleteIcon color="#595959" />}>
+        <Button {...buttonStyle} leftIcon={<DeleteIcon color="black" />}>
           حذف الطلب
         </Button>
       </Flex>
     );
   };
+
   return (
-    <>
+    <VStack height="100%">
+      <Select
+        placeholder="جميع انواع الطلبات"
+        css={{ 'text-align-last': 'center' }}
+        outlineColor="black"
+        focusBorderColor="none"
+        variant="outline"
+        fontSize="20px"
+        borderColor="gray"
+        boxShadow="base"
+        width="500px"
+        _hover={{ borderColor: 'black' }}
+      >
+        <option value="option1">Option 1</option>
+        <option value="option2">Option 2</option>
+        <option value="option3">Option 3</option>
+      </Select>
       <Grid
         gridTemplateColumns={`repeat(${totalSpan}, 1fr [col-start])`}
         borderRadius={8}
         border="1px"
         overflow="hidden"
         boxShadow="2xl"
-        minHeight="92vh"
+        height="100%"
       >
         {renderHeader()}
         {renderRows(currentData())}
         {renderFooter()}
         {renderActions()}
       </Grid>
-    </>
+      <AddOrder isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+    </VStack>
   );
 };
 
