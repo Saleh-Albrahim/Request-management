@@ -17,6 +17,10 @@ const buttonStyle: any = {
   _hover: { color: 'black', boxShadow: 'lg' },
 };
 
+interface Props {
+  orderTypes: Array<Object>;
+}
+
 const columns = [
   {
     text: 'رقم الطلب',
@@ -50,7 +54,7 @@ const columns = [
   },
 ];
 
-const DataGrid = () => {
+const DataGrid: React.FC<Props> = ({ orderTypes }) => {
   const { next, prev, currentData, currentPage, maxPage } = usePagination(data, 15);
   const [selectedId, setSelectedId] = useState(null);
   const totalSpan = columns.reduce((total, rec) => total + rec.span, 0);
@@ -208,7 +212,7 @@ const DataGrid = () => {
     <VStack height="100%">
       <Select
         placeholder="جميع انواع الطلبات"
-        css={{ 'text-align-last': 'center' }}
+        sx={{ textAlignLast: 'center' }}
         outlineColor="black"
         focusBorderColor="none"
         variant="outline"
@@ -218,9 +222,9 @@ const DataGrid = () => {
         width="500px"
         _hover={{ borderColor: 'black' }}
       >
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
-        <option value="option3">Option 3</option>
+        {orderTypes.map((type: any) => (
+          <option key={type.id}>{type.order_name}</option>
+        ))}
       </Select>
       <Grid
         gridTemplateColumns={`repeat(${totalSpan}, 1fr [col-start])`}

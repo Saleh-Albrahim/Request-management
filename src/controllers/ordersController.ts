@@ -9,8 +9,6 @@ import { db } from '../config/database';
 export const getOrdersType = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const types = await db.OrderType.findAll();
 
-    console.log(`types`.red, types.red);
-
     res.json(types);
 });
 
