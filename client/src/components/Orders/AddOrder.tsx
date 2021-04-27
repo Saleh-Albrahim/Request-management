@@ -14,16 +14,20 @@ import {
   Select,
   Textarea,
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext } from 'react';
+import OrderContext from 'context/order/orderContext';
 
 interface Props {
   isOpen: boolean;
-  onOpen: () => void;
   onClose: () => void;
-  orderTypes: Array<Object>;
 }
 
-const AddOrder: React.FC<Props> = ({ isOpen, onOpen, onClose, orderTypes }) => {
+const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
+  const orderContext = useContext(OrderContext);
+
+  // @ts-ignore
+  const { typeList } = orderContext;
+
   return (
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size="4xl" closeOnOverlayClick={false}>
@@ -50,7 +54,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onOpen, onClose, orderTypes }) => {
                   width="500px"
                   _hover={{ borderColor: 'black' }}
                 >
-                  {orderTypes.map((type: any) => (
+                  {typeList.map((type: any) => (
                     <option key={type.id} id={type.id}>
                       {type.name}
                     </option>
@@ -73,7 +77,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onOpen, onClose, orderTypes }) => {
                   width="500px"
                   _hover={{ borderColor: 'black' }}
                 >
-                  {orderTypes.map((type: any) => (
+                  {typeList.map((type: any) => (
                     <option key={type.id} id={type.id}>
                       {type.name}
                     </option>

@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ChakraProvider, Container } from '@chakra-ui/react';
-import Header from 'components/Ui/Header';
-import Spinner from 'components/Ui/Spinner';
+import Header from 'components/layout/Header';
+import Spinner from 'components/layout/Spinner';
 import Login from 'pages/Login';
 import Dashboard from 'pages/Dashboard';
 import NotFound from 'pages/NotFound';
-import SecuredRoute from 'components/Routes/SecuredRoute';
+import SecuredRoute from 'components/routes/SecuredRoute';
+import OrdersState from './context/order/OrderState';
 import theme from './theme';
 import '@fontsource/tajawal';
 
@@ -27,8 +28,8 @@ const App: () => JSX.Element = () => {
   };
 
   return (
-    <ChakraProvider theme={theme}>
-      <React.Suspense fallback={<Spinner />}>
+    <OrdersState>
+      <ChakraProvider theme={theme}>
         <Router>
           <Container maxW="container">
             <Switch>
@@ -46,8 +47,8 @@ const App: () => JSX.Element = () => {
             </Switch>
           </Container>
         </Router>
-      </React.Suspense>
-    </ChakraProvider>
+      </ChakraProvider>
+    </OrdersState>
   );
 };
 

@@ -1,0 +1,3 @@
+export const GET_TABLE_DATA = 'GET_ORDERS';
+export const UPDATE_SELECTED_TYPE = 'UPDATE_SELECTED_TYPE';
+export const GET_TYPE_LIST = 'GET_TYPE_LIST';

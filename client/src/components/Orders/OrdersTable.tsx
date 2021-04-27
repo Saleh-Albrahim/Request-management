@@ -1,13 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Box, Flex, Grid, IconButton, Text, useDisclosure, Select, VStack } from '@chakra-ui/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons';
 import usePagination from '../../hooks/userPagination';
-import AddOrder from './AddOrder';
+import OrderContext from '../../context/order/orderContext';
 
 interface Props {
-  orderTypes: Array<Object>;
-  updateData: (option: string) => void;
-  data: Array<Object>;
   renderActions: () => JSX.Element;
 }
 
@@ -44,8 +41,13 @@ const columns = [
   },
 ];
 
-const DataGrid: React.FC<Props> = ({ orderTypes, updateData, data, renderActions }) => {
-  const { next, prev, currentData, currentPage, maxPage } = usePagination(data, 15);
+const OrdersTable: React.FC<Props> = ({ renderActions }) => {
+  const orderContext = useContext(OrderContext);
+
+  // @ts-ignore
+  const { typeList, tableData, updateTableData } = orderContext;
+
+  const { next, prev, currentData, currentPage, maxPage } = usePagination(tableData, 15);
   const [selectedId, setSelectedId] = useState(null);
   const totalSpan = columns.reduce((total, rec) => total + rec.span, 0);
 
@@ -170,27 +172,23 @@ const DataGrid: React.FC<Props> = ({ orderTypes, updateData, data, renderActions
     return res;
   };
 
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <VStack height="100%">
       <Select
         placeholder="جميع انواع الطلبات"
         sx={{ textAlignLast: 'center' }}
-        outlineColor="black"
-        focusBorderColor="none"
-        variant="outline"
         height="48px"
         fontSize="20px"
+        focusBorderColor="black"
         borderColor="gray"
         onChange={(e) => {
-          updateData(e.target[e.target.selectedIndex].id);
+          updateTableData(e.target[e.target.selectedIndex].id);
         }}
         boxShadow="base"
         width="500px"
         _hover={{ borderColor: 'black' }}
       >
-        {orderTypes.map((type: any) => (
+        {typeList.map((type: any) => (
           <option key={type.id} id={type.id}>
             {type.name}
           </option>
@@ -214,4 +212,4 @@ const DataGrid: React.FC<Props> = ({ orderTypes, updateData, data, renderActions
   );
 };
 
-export default DataGrid;
+export default OrdersTable;

@@ -1,11 +1,11 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
 
-import Sidebar from '../components/Sidebar/Sidebar';
-import Orders from '../scenes/orders/OrdersMain';
-import Home from '../scenes/Home';
-import Users from '../scenes/users/UsersMain';
-import Reports from '../scenes/reports/ReportMain';
+import Sidebar from '../components/sidebar/Sidebar';
+import Orders from '../components/orders/OrdersMain';
+import Home from '../components/home/HomeMain';
+import Users from '../components/users/UsersMain';
+import Reports from '../components/reports/ReportMain';
 
 interface Props {
   user: Object;
