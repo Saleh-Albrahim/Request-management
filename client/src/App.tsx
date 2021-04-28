@@ -11,33 +11,35 @@ import UsersContext from './context/users/usersContext';
 
 const App: () => JSX.Element = () => {
   const usersContext = useContext(UsersContext);
-
   //  @ts-expect-error
-  const { user, updateUser } = usersContext;
+  const { user, updateUser, getUsersList } = usersContext;
 
   const localStorageUser = localStorage.getItem('user');
 
   useEffect(() => {
     if (localStorageUser) {
       updateUser(localStorageUser);
+      if (user.role === 'admin') {
+        getUsersList();
+      }
     }
   }, []);
 
   return (
-    <OrdersState>
-      <ChakraProvider theme={theme}>
-        <Router>
-          <Container maxW="container">
-            <Switch>
-              <Route path="/" exact render={(props) => (user ? <Redirect to="/dashboard" /> : <Login />)} />
+    <ChakraProvider theme={theme}>
+      <Router>
+        <Container maxW="container">
+          <Switch>
+            <Route path="/" exact render={(props) => (user ? <Redirect to="/dashboard" /> : <Login />)} />
+            <OrdersState>
               <Route render={(props) => (user ? <Dashboard /> : <Redirect to="/" />)} path="/dashboard" />
-              <Route component={NotFound} path="/404" />
-              <Redirect to="/404" />
-            </Switch>
-          </Container>
-        </Router>
-      </ChakraProvider>
-    </OrdersState>
+            </OrdersState>
+            <Route component={NotFound} path="/404" />
+            <Redirect to="/404" />
+          </Switch>
+        </Container>
+      </Router>
+    </ChakraProvider>
   );
 };
 

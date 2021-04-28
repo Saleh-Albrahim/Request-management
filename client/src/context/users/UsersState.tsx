@@ -22,6 +22,8 @@ const OrderState: React.FC = ({ children }: Props) => {
 
     if (response.status === 200) {
       const data = await response.json();
+
+      console.log(`data`, data);
       dispatch({
         type: GET_USERS_LIST,
         payload: data,

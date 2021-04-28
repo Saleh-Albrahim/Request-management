@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react';
 import React, { useContext } from 'react';
 import OrderContext from 'context/orders/orderContext';
+import UsersContext from 'context/users/usersContext';
 
 interface Props {
   isOpen: boolean;
@@ -24,11 +25,13 @@ interface Props {
 
 const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
   const orderContext = useContext(OrderContext);
+  const usersContext = useContext(UsersContext);
+
+  // @ts-ignore
+  const { usersList } = usersContext;
 
   // @ts-ignore
   const { typeList } = orderContext;
-
-  const addOrder = async () => {};
 
   return (
     <>
@@ -45,7 +48,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                   نوع الطلب :
                 </FormLabel>
                 <Select
-                  sx={{ 'text-indent': '15px' }}
+                  sx={{ textIndent: '15px' }}
                   outlineColor="black"
                   focusBorderColor="none"
                   variant="outline"
@@ -68,7 +71,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                   العضو المسؤول :
                 </FormLabel>
                 <Select
-                  sx={{ 'text-indent': '15px' }}
+                  sx={{ textIndent: '15px' }}
                   outlineColor="black"
                   focusBorderColor="none"
                   variant="outline"
@@ -79,9 +82,9 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                   width="500px"
                   _hover={{ borderColor: 'black' }}
                 >
-                  {typeList.map((type: any) => (
-                    <option key={type.id} id={type.id}>
-                      {type.name}
+                  {usersList.map((user: any) => (
+                    <option key={user.id} id={user.id}>
+                      {user.username}
                     </option>
                   ))}
                 </Select>

@@ -11,11 +11,9 @@ import jwt from 'jsonwebtoken';
 // @route     GET /auth/users
 // @access    Private
 export const getUsersList = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
-    const users = await db.User.findAll();
+    let users = await db.Users.findAll({ raw: true, attributes: ['id', 'username', 'role'] });
 
-    return res.json({
-        users,
-    });
+    return res.json(users);
 });
 
 // @desc      Return the login user

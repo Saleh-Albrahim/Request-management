@@ -1,6 +1,6 @@
 import { Box, Flex } from '@chakra-ui/react';
 import { useState } from 'react';
-
+import UsersContext from '../context/users/usersContext';
 import Sidebar from '../components/sidebar/Sidebar';
 import Orders from '../components/orders/OrdersMain';
 import Home from '../components/home/HomeMain';
