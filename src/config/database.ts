@@ -12,6 +12,7 @@ const connectDB = async () => {
             host: process.env.DATABASE_HOST,
             port: process.env.DATABASE_PORT,
             dialect: process.env.DATABASE_DIALECT,
+            logging: false,
         });
 
         db.sequelize = sequelize;
@@ -22,16 +23,14 @@ const connectDB = async () => {
         db.Users.hasMany(db.Orders, {
             onDelete: 'NO ACTION',
             onUpdate: 'CASCADE',
-            foreignKey: 'user_id',
         });
-        db.Orders.belongsTo(db.Users, { foreignKey: 'user_id' });
+        db.Orders.belongsTo(db.Users);
 
         db.OrderType.hasMany(db.Orders, {
             onDelete: 'NO ACTION',
             onUpdate: 'CASCADE',
-            foreignKey: 'order_type_id',
         });
-        db.Orders.belongsTo(db.OrderType, { foreignKey: 'order_type_id' });
+        db.Orders.belongsTo(db.OrderType);
 
         // Check the database connection
         await sequelize.authenticate();

@@ -32,7 +32,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
   const { usersList } = usersContext;
 
   // @ts-ignore
-  const { typeList } = orderContext;
+  const { typeList, updateTableData } = orderContext;
 
   const [type, setType] = useState(' ');
 
@@ -59,7 +59,10 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
     const data = await response.json();
     if (response.status === 200) {
       successAlertTimer(data.message);
-
+      updateTableData('');
+      setType('');
+      setUser('');
+      setComment('');
       onClose();
     } else {
       errorAlert(data.message);
@@ -138,6 +141,10 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                     borderColor="gray"
                     boxShadow="base"
                     width="500px"
+                    value={comment}
+                    onChange={(e) => {
+                      setComment(e.target.value);
+                    }}
                     focusBorderColor="none"
                     _hover={{ borderColor: 'black' }}
                   />

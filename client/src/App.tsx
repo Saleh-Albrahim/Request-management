@@ -12,14 +12,13 @@ import UsersContext from './context/users/usersContext';
 const App: () => JSX.Element = () => {
   const usersContext = useContext(UsersContext);
   //  @ts-expect-error
-  const { user, updateUser, getUsersList } = usersContext;
+  const { user, updateUser } = usersContext;
 
   const localStorageUser: any = localStorage.getItem('user');
 
   useEffect(() => {
     if (localStorageUser) {
       updateUser(localStorageUser);
-      getUsersList();
     }
   }, []);
 

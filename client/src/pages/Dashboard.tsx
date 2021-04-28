@@ -1,5 +1,5 @@
 import { Box, Flex } from '@chakra-ui/react';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import UsersContext from '../context/users/usersContext';
 import Sidebar from '../components/sidebar/Sidebar';
 import Orders from '../components/orders/OrdersMain';
@@ -10,6 +10,18 @@ import Reports from '../components/reports/ReportMain';
 const Dashboard: React.FC = () => {
   const [scene, setScene] = useState('الرئيسية');
   const [Stage, setStage] = useState(<Home />);
+  const [sidebarItems, setSidebarItems] = useState([]);
+
+  const usersContext = useContext(UsersContext);
+
+  // @ts-ignore
+  const { user, getUsersList } = usersContext;
+
+  useEffect(() => {
+    if (user.role === 'admin') {
+      getUsersList();
+    }
+  }, []);
 
   const updateScene = (value: string) => {
     setScene(value);

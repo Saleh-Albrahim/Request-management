@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Box, Flex, Grid, IconButton, Text, useDisclosure, Select, VStack } from '@chakra-ui/react';
+import { Box, Flex, Grid, IconButton, Text, useDisclosure, Select, VStack, HStack } from '@chakra-ui/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons';
 import usePagination from '../../hooks/userPagination';
 import OrderContext from '../../context/orders/orderContext';
@@ -36,7 +36,7 @@ const columns = [
   },
   {
     text: 'ملاحظات',
-    dataIndex: 'notes',
+    dataIndex: 'comment',
     span: 4,
   },
 ];
@@ -174,26 +174,29 @@ const OrdersTable: React.FC<Props> = ({ renderActions }) => {
 
   return (
     <VStack height="100%">
-      <Select
-        placeholder="جميع انواع الطلبات"
-        sx={{ textAlignLast: 'center' }}
-        height="48px"
-        fontSize="20px"
-        focusBorderColor="black"
-        borderColor="gray"
-        onChange={(e) => {
-          updateTableData(e.target[e.target.selectedIndex].id);
-        }}
-        boxShadow="base"
-        width="500px"
-        _hover={{ borderColor: 'black' }}
-      >
-        {typeList.map((type: any) => (
-          <option key={type.id} id={type.id}>
-            {type.name}
-          </option>
-        ))}
-      </Select>
+      <HStack justifyContent="space-between" width="100%" px={1}>
+        <Select
+          placeholder="جميع انواع الطلبات"
+          sx={{ textAlignLast: 'center' }}
+          height="48px"
+          fontSize="20px"
+          focusBorderColor="black"
+          borderColor="gray"
+          onChange={(e) => {
+            updateTableData(e.target[e.target.selectedIndex].id);
+          }}
+          boxShadow="base"
+          width="500px"
+          _hover={{ borderColor: 'black' }}
+        >
+          {typeList.map((type: any) => (
+            <option key={type.id} id={type.id}>
+              {type.name}
+            </option>
+          ))}
+        </Select>
+        {renderActions()}
+      </HStack>
       <Grid
         height="100%"
         width="100%"
@@ -206,7 +209,6 @@ const OrdersTable: React.FC<Props> = ({ renderActions }) => {
         {renderHeader()}
         {renderRows(currentData())}
         {renderFooter()}
-        {renderActions()}
       </Grid>
     </VStack>
   );

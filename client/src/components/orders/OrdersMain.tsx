@@ -32,27 +32,20 @@ const OrdersMain: React.FC = () => {
 
   const renderActions = () => {
     return (
-      <Flex
-        bg="gray.200"
-        py={3}
-        minWidth={10}
-        height="100%"
+      <Button
+        onClick={onAddOrderOpen}
+        _hover={{ borderColor: 'black' }}
+        width="250px"
+        border="1px"
+        height="48px"
+        borderColor="gray"
+        color="#2E2E2E"
+        boxShadow="md"
         backgroundColor="#dfdfdf"
-        borderTop="1px solid black"
-        justifyContent="space-around"
-        gridColumn={`1 / span ${15}`}
-        overflow="hidden"
+        leftIcon={<AddIcon color="black" />}
       >
-        <Button onClick={onAddOrderOpen} {...buttonStyle} leftIcon={<AddIcon color="black" />}>
-          إضافة طلب جديد
-        </Button>
-        {/* <Button {...buttonStyle} leftIcon={<EditIcon color="black" />}>
-          تعديل الطلب
-        </Button>
-        <Button {...buttonStyle} leftIcon={<DeleteIcon color="black" />}>
-          حذف الطلب
-        </Button> */}
-      </Flex>
+        إضافة طلب جديد
+      </Button>
     );
   };
 

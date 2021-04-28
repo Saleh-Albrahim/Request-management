@@ -5,23 +5,25 @@ const createOrdersTable = async (sequelize: Sequelize) => {
         'Orders',
         {
             id: {
-                type: DataTypes.UUID,
-                defaultValue: DataTypes.UUIDV4,
+                type: DataTypes.INTEGER,
+                autoIncrement: true,
                 primaryKey: true,
             },
             user_id: {
-                type: DataTypes.STRING,
+                type: DataTypes.UUID,
                 references: {
                     model: 'users',
                     key: 'id',
                 },
+                allowNull: false,
             },
             order_type_id: {
-                type: DataTypes.STRING,
+                type: DataTypes.UUID,
                 references: {
                     model: 'order_types',
                     key: 'id',
                 },
+                allowNull: false,
             },
             status: {
                 type: DataTypes.ENUM,
@@ -29,14 +31,13 @@ const createOrdersTable = async (sequelize: Sequelize) => {
                 defaultValue: 'جديد',
                 allowNull: false,
             },
-            notes: {
+            comment: {
                 type: DataTypes.TEXT,
                 defaultValue: 'لا يوجد',
                 allowNull: true,
             },
             date: {
-                type: DataTypes.DATEONLY,
-                defaultValue: new Date().toJSON().slice(0, 10).replace(/-/g, '/'),
+                type: DataTypes.STRING,
             },
         },
         {
@@ -47,6 +48,14 @@ const createOrdersTable = async (sequelize: Sequelize) => {
     Orders.sync().then(() => {
         console.log('Orders table is created');
     });
+
+    const addDate = async (instance: any) => {
+        instance.set('date', new Date().toJSON().slice(0, 10).replace(/-/g, '/'));
+    };
+
+    Orders.beforeCreate(addDate);
+
+    Orders.beforeUpdate(addDate);
 
     return Orders;
 };
