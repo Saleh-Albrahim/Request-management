@@ -7,8 +7,8 @@ const createUsersTable = async (sequelize: Sequelize) => {
         'users',
         {
             id: {
-                type: DataTypes.STRING,
-                defaultValue: shortid.generate(),
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
             },
             username: {

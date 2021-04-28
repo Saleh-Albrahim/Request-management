@@ -15,7 +15,7 @@ export const getOrdersType = asyncHandler(async (req: Request, res: Response, ne
 });
 
 // @desc    Get all the orders types
-// @route   GET /orders/:type
+// @route   GET /orders
 // @access    Private
 export const getOrders = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
     const typeID = req.query.type;
@@ -60,4 +60,22 @@ export const getOrders = asyncHandler(async (req: Request, res: Response, next: 
     }
 
     res.json(orders);
+});
+
+// @desc    Add new order
+// @route   POST /orders
+// @access    Private
+export const addOrder = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const { type, user, comment } = req.body;
+    console.log('TCL: addOrder -> type', type);
+    console.log('TCL: addOrder -> user', user);
+
+    if (!type || !user) {
+        return next(new ErrorResponse('الرجاء اكمال جميع الحقول', 400));
+    }
+
+    await db.Orders.create(req.body);
+    res.json({
+        message: 'تم إضافة الطلب بنجاح',
+    });
 });

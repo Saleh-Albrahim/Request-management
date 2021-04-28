@@ -1,13 +1,12 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import shortid from 'shortid';
 
 const createOrdersTable = async (sequelize: Sequelize) => {
     const Orders = sequelize.define(
         'Orders',
         {
             id: {
-                type: DataTypes.STRING,
-                defaultValue: shortid.generate(),
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
             },
             user_id: {
@@ -26,7 +25,8 @@ const createOrdersTable = async (sequelize: Sequelize) => {
             },
             status: {
                 type: DataTypes.ENUM,
-                values: ['مكتمل', 'قيد التنفيذ', 'ملغا', 'مؤجل'],
+                values: ['مكتمل', 'قيد التنفيذ', 'ملغا', 'مؤجل', 'جديد'],
+                defaultValue: 'جديد',
                 allowNull: false,
             },
             notes: {

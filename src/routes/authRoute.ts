@@ -4,6 +4,8 @@ import { protect, authorize } from '../middleware/auth';
 
 const router = express.Router();
 
+// @route /api/v1/auth
+
 router.route('/register').post(registerUsers);
 
 router.route('/login').post(loginUsers);

@@ -7,8 +7,8 @@ const createOrderTypeTable = async (sequelize: Sequelize) => {
         'OrderType',
         {
             id: {
-                type: DataTypes.STRING,
-                defaultValue: shortid.generate(),
+                type: DataTypes.UUID,
+                defaultValue: DataTypes.UUIDV4,
                 primaryKey: true,
             },
             name: {

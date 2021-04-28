@@ -54,11 +54,7 @@ export const registerUsers = asyncHandler(async (req: any, res: Response, next: 
     }
 
     // Create user in the db
-    const user: any = await db.Users.create({
-        username: username,
-        password: password,
-        role: role,
-    });
+    const user: any = await db.Users.create(req.body);
 
     sendTokenResponse(user, 200, res, 'تم التسجيل بنجاح');
 });

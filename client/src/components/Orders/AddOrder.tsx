@@ -34,7 +34,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
   // @ts-ignore
   const { typeList } = orderContext;
 
-  const [type, setType] = useState('');
+  const [type, setType] = useState(' ');
 
   const [user, setUser] = useState('');
 
@@ -45,17 +45,32 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
 
     if (!type || !user) {
       errorAlert('الرجاء اكمال جميع الحقول');
+      return;
     }
 
-    console.log(`type`, type);
-    console.log(`user`, user);
+    const response = await fetch('/api/v1/orders', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ user, type, comment }),
+    });
+
+    const data = await response.json();
+    if (response.status === 200) {
+      successAlertTimer(data.message);
+
+      onClose();
+    } else {
+      errorAlert(data.message);
+    }
   };
 
   return (
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size="4xl" closeOnOverlayClick={false}>
         <ModalOverlay />
-        <ModalContent background="#dfdfdf" p={3}>
+        <ModalContent zIndex={1} background="#dfdfdf" p={3}>
           <ModalCloseButton />
           <Flex alignItems="end" justifyContent="center" flexDirection="column">
             <ModalHeader m="auto">إضافة طلب جديد</ModalHeader>
@@ -72,15 +87,15 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                     focusBorderColor="none"
                     variant="outline"
                     height="48px"
-                    selectedIndex={-1}
                     fontSize="15px"
+                    defaultValue=""
                     borderColor="gray"
                     boxShadow="base"
                     width="500px"
                     onChange={(e) => setType(e.target[e.target.selectedIndex].id)}
                     _hover={{ borderColor: 'black' }}
                   >
-                    <option disabled selected label=" " />
+                    <option disabled label=" " />
                     {typeList.map((type: any) => (
                       <option key={type.id} id={type.id}>
                         {type.name}
@@ -100,12 +115,13 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                     height="48px"
                     fontSize="15px"
                     borderColor="gray"
+                    defaultValue=""
                     boxShadow="base"
                     width="500px"
                     onChange={(e) => setUser(e.target[e.target.selectedIndex].id)}
                     _hover={{ borderColor: 'black' }}
                   >
-                    <option disabled selected label=" " />
+                    <option disabled label=" " />
                     {usersList.map((user: any) => (
                       <option key={user.id} id={user.id}>
                         {user.username}
