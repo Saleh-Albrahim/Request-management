@@ -14,9 +14,10 @@ import {
   Select,
   Textarea,
 } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import OrderContext from 'context/orders/orderContext';
 import UsersContext from 'context/users/usersContext';
+import { successAlertTimer, errorAlert } from '../../util/alerts';
 
 interface Props {
   isOpen: boolean;
@@ -33,6 +34,23 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
   // @ts-ignore
   const { typeList } = orderContext;
 
+  const [type, setType] = useState('');
+
+  const [user, setUser] = useState('');
+
+  const [comment, setComment] = useState('');
+
+  const onSubmit = async (e: any) => {
+    e.preventDefault();
+
+    if (!type || !user) {
+      errorAlert('الرجاء اكمال جميع الحقول');
+    }
+
+    console.log(`type`, type);
+    console.log(`user`, user);
+  };
+
   return (
     <>
       <Modal onClose={onClose} isOpen={isOpen} isCentered size="4xl" closeOnOverlayClick={false}>
@@ -43,79 +61,87 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
             <ModalHeader m="auto">إضافة طلب جديد</ModalHeader>
             <Divider borderColor="black" />
             <ModalBody>
-              <FormControl mt={3}>
-                <FormLabel fontSize="15px" fontWeight="bold">
-                  نوع الطلب :
-                </FormLabel>
-                <Select
-                  sx={{ textIndent: '15px' }}
-                  outlineColor="black"
-                  focusBorderColor="none"
-                  variant="outline"
+              <form onSubmit={onSubmit}>
+                <FormControl mt={3}>
+                  <FormLabel fontSize="15px" fontWeight="bold">
+                    نوع الطلب :
+                  </FormLabel>
+                  <Select
+                    sx={{ textIndent: '15px' }}
+                    outlineColor="black"
+                    focusBorderColor="none"
+                    variant="outline"
+                    height="48px"
+                    selectedIndex={-1}
+                    fontSize="15px"
+                    borderColor="gray"
+                    boxShadow="base"
+                    width="500px"
+                    onChange={(e) => setType(e.target[e.target.selectedIndex].id)}
+                    _hover={{ borderColor: 'black' }}
+                  >
+                    <option disabled selected label=" " />
+                    {typeList.map((type: any) => (
+                      <option key={type.id} id={type.id}>
+                        {type.name}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl mt={3}>
+                  <FormLabel fontSize="15px" fontWeight="bold">
+                    العضو المسؤول :
+                  </FormLabel>
+                  <Select
+                    sx={{ textIndent: '15px' }}
+                    outlineColor="black"
+                    focusBorderColor="none"
+                    variant="outline"
+                    height="48px"
+                    fontSize="15px"
+                    borderColor="gray"
+                    boxShadow="base"
+                    width="500px"
+                    onChange={(e) => setUser(e.target[e.target.selectedIndex].id)}
+                    _hover={{ borderColor: 'black' }}
+                  >
+                    <option disabled selected label=" " />
+                    {usersList.map((user: any) => (
+                      <option key={user.id} id={user.id}>
+                        {user.username}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
+                <FormControl mt={3}>
+                  <FormLabel fontSize="15px" fontWeight="bold">
+                    ملاحظات :
+                  </FormLabel>
+                  <Textarea
+                    outlineColor="black"
+                    borderColor="gray"
+                    boxShadow="base"
+                    width="500px"
+                    focusBorderColor="none"
+                    _hover={{ borderColor: 'black' }}
+                  />
+                </FormControl>
+                <Button
+                  mt={5}
+                  _hover={{ borderColor: 'black' }}
+                  size="md"
                   height="48px"
-                  fontSize="15px"
+                  width="250px"
+                  border="1px"
                   borderColor="gray"
-                  boxShadow="base"
-                  width="500px"
-                  _hover={{ borderColor: 'black' }}
+                  color="#2E2E2E"
+                  boxShadow="md"
+                  type="submit"
+                  backgroundColor="#dfdfdf"
                 >
-                  {typeList.map((type: any) => (
-                    <option key={type.id} id={type.id}>
-                      {type.name}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl mt={3}>
-                <FormLabel fontSize="15px" fontWeight="bold">
-                  العضو المسؤول :
-                </FormLabel>
-                <Select
-                  sx={{ textIndent: '15px' }}
-                  outlineColor="black"
-                  focusBorderColor="none"
-                  variant="outline"
-                  height="48px"
-                  fontSize="15px"
-                  borderColor="gray"
-                  boxShadow="base"
-                  width="500px"
-                  _hover={{ borderColor: 'black' }}
-                >
-                  {usersList.map((user: any) => (
-                    <option key={user.id} id={user.id}>
-                      {user.username}
-                    </option>
-                  ))}
-                </Select>
-              </FormControl>
-              <FormControl mt={3}>
-                <FormLabel fontSize="15px" fontWeight="bold">
-                  ملاحظات :
-                </FormLabel>
-                <Textarea
-                  outlineColor="black"
-                  borderColor="gray"
-                  boxShadow="base"
-                  width="500px"
-                  focusBorderColor="none"
-                  _hover={{ borderColor: 'black' }}
-                />
-              </FormControl>
-              <Button
-                mt={5}
-                _hover={{ borderColor: 'black' }}
-                size="md"
-                height="48px"
-                width="250px"
-                border="1px"
-                borderColor="gray"
-                color="#2E2E2E"
-                boxShadow="md"
-                backgroundColor="#dfdfdf"
-              >
-                إضافة الطلب
-              </Button>
+                  إضافة الطلب
+                </Button>
+              </form>
             </ModalBody>
           </Flex>
         </ModalContent>

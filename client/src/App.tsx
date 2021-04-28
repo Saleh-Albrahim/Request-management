@@ -14,14 +14,12 @@ const App: () => JSX.Element = () => {
   //  @ts-expect-error
   const { user, updateUser, getUsersList } = usersContext;
 
-  const localStorageUser = localStorage.getItem('user');
+  const localStorageUser: any = localStorage.getItem('user');
 
   useEffect(() => {
     if (localStorageUser) {
       updateUser(localStorageUser);
-      if (user.role === 'admin') {
-        getUsersList();
-      }
+      getUsersList();
     }
   }, []);
 

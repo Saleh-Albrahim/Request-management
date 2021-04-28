@@ -1,5 +1,5 @@
 import { Flex, Box, Button, useDisclosure } from '@chakra-ui/react';
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { AddIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import OrdersTable from './OrdersTable';
 import AddOrder from 'components/orders/AddOrder';
@@ -46,12 +46,12 @@ const OrdersMain: React.FC = () => {
         <Button onClick={onAddOrderOpen} {...buttonStyle} leftIcon={<AddIcon color="black" />}>
           إضافة طلب جديد
         </Button>
-        <Button {...buttonStyle} leftIcon={<EditIcon color="black" />}>
+        {/* <Button {...buttonStyle} leftIcon={<EditIcon color="black" />}>
           تعديل الطلب
         </Button>
         <Button {...buttonStyle} leftIcon={<DeleteIcon color="black" />}>
           حذف الطلب
-        </Button>
+        </Button> */}
       </Flex>
     );
   };
