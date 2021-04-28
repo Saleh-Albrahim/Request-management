@@ -2,7 +2,7 @@
 import React, { useReducer } from 'react';
 import orderContext from './orderContext';
 import OrderReducer from './orderReducer';
-import { GET_TABLE_DATA, UPDATE_SELECTED_TYPE, GET_TYPE_LIST } from '../types';
+import { GET_TABLE_DATA, GET_TYPE_LIST } from '../types';
 
 type Props = {
   children: React.ReactNode;
@@ -31,7 +31,7 @@ const OrderState: React.FC = ({ children }: Props) => {
   };
 
   // GET Type List
-  const updateTypeList = async () => {
+  const getTypeList = async () => {
     const response = await fetch('/api/v1/orders/type');
 
     if (response.status === 200) {
@@ -50,7 +50,7 @@ const OrderState: React.FC = ({ children }: Props) => {
         selectedType: state.selectedType,
         typeList: state.typeList,
         updateTableData,
-        updateTypeList,
+        getTypeList,
       }}
     >
       {children}

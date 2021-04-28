@@ -1,31 +1,27 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Redirect, Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { ChakraProvider, Container } from '@chakra-ui/react';
-import Header from 'components/layout/Header';
-import Spinner from 'components/layout/Spinner';
 import Login from 'pages/Login';
 import Dashboard from 'pages/Dashboard';
 import NotFound from 'pages/NotFound';
-import SecuredRoute from 'components/routes/SecuredRoute';
-import OrdersState from './context/order/OrderState';
+import OrdersState from './context/orders/OrderState';
 import theme from './theme';
 import '@fontsource/tajawal';
-
-// 3. extend the theme
+import UsersContext from './context/users/usersContext';
 
 const App: () => JSX.Element = () => {
-  const [user, setUser]: any = useState(undefined);
+  const usersContext = useContext(UsersContext);
+
+  //  @ts-expect-error
+  const { user, updateUser } = usersContext;
+
+  const localStorageUser = localStorage.getItem('user');
 
   useEffect(() => {
-    const user = localStorage.getItem('user');
-    if (user) {
-      setUser(user);
+    if (localStorageUser) {
+      updateUser(localStorageUser);
     }
   }, []);
-
-  const updateUser = (user: Object) => {
-    setUser(user);
-  };
 
   return (
     <OrdersState>
@@ -33,15 +29,8 @@ const App: () => JSX.Element = () => {
         <Router>
           <Container maxW="container">
             <Switch>
-              <Route
-                path="/"
-                exact
-                render={(props) => (user ? <Redirect to="/dashboard" /> : <Login updateUser={updateUser} />)}
-              />
-              <Route
-                render={(props) => (user ? <Dashboard user={user} updateUser={updateUser} /> : <Redirect to="/" />)}
-                path="/dashboard"
-              />
+              <Route path="/" exact render={(props) => (user ? <Redirect to="/dashboard" /> : <Login />)} />
+              <Route render={(props) => (user ? <Dashboard /> : <Redirect to="/" />)} path="/dashboard" />
               <Route component={NotFound} path="/404" />
               <Redirect to="/404" />
             </Switch>

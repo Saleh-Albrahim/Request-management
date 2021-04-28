@@ -2,7 +2,7 @@ import { useState, useContext } from 'react';
 import { Box, Flex, Grid, IconButton, Text, useDisclosure, Select, VStack } from '@chakra-ui/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons';
 import usePagination from '../../hooks/userPagination';
-import OrderContext from '../../context/order/orderContext';
+import OrderContext from '../../context/orders/orderContext';
 
 interface Props {
   renderActions: () => JSX.Element;

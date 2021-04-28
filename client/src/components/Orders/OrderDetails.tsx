@@ -12,6 +12,7 @@ import {
   ModalHeader,
   ModalOverlay,
   Select,
+  Text,
   Textarea,
 } from '@chakra-ui/react';
 import React, { useContext } from 'react';
@@ -20,15 +21,14 @@ import OrderContext from 'context/orders/orderContext';
 interface Props {
   isOpen: boolean;
   onClose: () => void;
+  data: { type: string; user: string; comment: string };
 }
 
-const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
+const OrderDetails: React.FC<Props> = ({ isOpen, onClose, data }) => {
   const orderContext = useContext(OrderContext);
 
   // @ts-ignore
   const { typeList } = orderContext;
-
-  const addOrder = async () => {};
 
   return (
     <>
@@ -44,7 +44,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                 <FormLabel fontSize="15px" fontWeight="bold">
                   نوع الطلب :
                 </FormLabel>
-                <Select
+                <Text
                   sx={{ 'text-indent': '15px' }}
                   outlineColor="black"
                   focusBorderColor="none"
@@ -56,18 +56,14 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                   width="500px"
                   _hover={{ borderColor: 'black' }}
                 >
-                  {typeList.map((type: any) => (
-                    <option key={type.id} id={type.id}>
-                      {type.name}
-                    </option>
-                  ))}
-                </Select>
+                  {data.type}
+                </Text>
               </FormControl>
               <FormControl mt={3}>
                 <FormLabel fontSize="15px" fontWeight="bold">
                   العضو المسؤول :
                 </FormLabel>
-                <Select
+                <Text
                   sx={{ 'text-indent': '15px' }}
                   outlineColor="black"
                   focusBorderColor="none"
@@ -79,12 +75,8 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                   width="500px"
                   _hover={{ borderColor: 'black' }}
                 >
-                  {typeList.map((type: any) => (
-                    <option key={type.id} id={type.id}>
-                      {type.name}
-                    </option>
-                  ))}
-                </Select>
+                  {data.user}
+                </Text>
               </FormControl>
               <FormControl mt={3}>
                 <FormLabel fontSize="15px" fontWeight="bold">
@@ -121,4 +113,4 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
   );
 };
 
-export default AddOrder;
+export default OrderDetails;

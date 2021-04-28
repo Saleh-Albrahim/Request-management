@@ -1,15 +1,17 @@
 import { Flex, VStack, Input, FormControl, FormLabel, Button, Image, Text, Box } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import UsersContext from '../context/users/usersContext';
 import { useHistory } from 'react-router-dom';
 import { errorAlert, successAlertTimer } from '../util/alerts';
 import Logo from '../img/logo.png';
 
-interface Props {
-  updateUser: (user: Object) => void;
-}
-
-const Login: React.FC<Props> = ({ updateUser }) => {
+const Login: React.FC = () => {
   const history = useHistory();
+
+  const usersContext = useContext(UsersContext);
+
+  //  @ts-expect-error
+  const { updateUser } = usersContext;
 
   const submitLogin: any = async (username: string, password: string) => {
     const response = await fetch('/api/v1/auth/login', {

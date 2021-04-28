@@ -3,7 +3,7 @@ import { useState, useEffect, useContext } from 'react';
 import { AddIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons';
 import OrdersTable from './OrdersTable';
 import AddOrder from 'components/orders/AddOrder';
-import OrdersContext from 'context/order/orderContext';
+import OrdersContext from 'context/orders/orderContext';
 
 const buttonStyle: any = {
   height: '100%',
@@ -21,11 +21,11 @@ const buttonStyle: any = {
 const OrdersMain: React.FC = () => {
   const ordersContext: any = useContext(OrdersContext);
 
-  const { updateTableData, updateTypeList } = ordersContext;
+  const { updateTableData, getTypeList } = ordersContext;
 
   useEffect(() => {
     updateTableData('');
-    updateTypeList();
+    getTypeList();
   }, []);
 
   const { isOpen: isAddOrderOpen, onOpen: onAddOrderOpen, onClose: onAddOrderClose } = useDisclosure();

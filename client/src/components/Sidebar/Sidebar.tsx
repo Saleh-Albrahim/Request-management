@@ -8,11 +8,9 @@ const sidebarData = ['الرئيسية', 'إدارة الطلبات', 'التق�
 interface Props {
   currentScene: string;
   updateScene: (value: string) => void;
-  user: Object;
-  updateUser: (user: Object) => void;
 }
 
-const Sidebar: React.FC<Props> = ({ updateScene, currentScene, user, updateUser }) => (
+const Sidebar: React.FC<Props> = ({ updateScene, currentScene }) => (
   <Box position="fixed" right={0} p={5} w="250px" top={0} h="100%" bg="gray2" border="2px" borderColor="gray">
     <VStack display="flex" justifyContent="center" alignItems="center">
       <Image m="auto" h={165} w={165} src={Logo} alt="وزارة الدفاع" />
@@ -22,7 +20,7 @@ const Sidebar: React.FC<Props> = ({ updateScene, currentScene, user, updateUser 
       {sidebarData.map((item, index) => {
         return <SidebarItem key={index} value={item} updateScene={updateScene} currentScene={currentScene} />;
       })}
-      <Logout updateScene={updateScene} updateUser={updateUser} />
+      <Logout updateScene={updateScene} />
     </VStack>
   </Box>
 );

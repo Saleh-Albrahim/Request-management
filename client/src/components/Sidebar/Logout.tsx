@@ -1,6 +1,8 @@
 import { Button } from '@chakra-ui/react';
 import { useHistory } from 'react-router-dom';
+import React, { useContext } from 'react';
 import { errorAlert, successAlertTimer } from '../../util/alerts';
+import UsersContext from '../../context/users/usersContext';
 
 const buttonStyle: any = {
   height: '60px',
@@ -17,11 +19,15 @@ const buttonStyle: any = {
 
 interface Props {
   updateScene: (value: string) => void;
-  updateUser: (user: any) => void;
 }
 
-const Logout = ({ updateScene, updateUser }: Props) => {
+const Logout = ({ updateScene }: Props) => {
   const history = useHistory();
+
+  const usersContext = useContext(UsersContext);
+
+  //  @ts-expect-error
+  const { updateUser } = usersContext;
 
   const submitLogin: any = async () => {
     try {

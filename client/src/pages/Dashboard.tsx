@@ -7,12 +7,7 @@ import Home from '../components/home/HomeMain';
 import Users from '../components/users/UsersMain';
 import Reports from '../components/reports/ReportMain';
 
-interface Props {
-  user: Object;
-  updateUser: (user: Object) => void;
-}
-
-const Dashboard: React.FC<Props> = ({ user, updateUser }) => {
+const Dashboard: React.FC = () => {
   const [scene, setScene] = useState('الرئيسية');
   const [Stage, setStage] = useState(<Home />);
 
@@ -39,7 +34,7 @@ const Dashboard: React.FC<Props> = ({ user, updateUser }) => {
 
   return (
     <Flex alignItems="center" mr="250px" justifyContent="center" height="100vh">
-      <Sidebar user={user} updateScene={updateScene} updateUser={updateUser} currentScene={scene} />
+      <Sidebar updateScene={updateScene} currentScene={scene} />
       <Flex
         width="100%"
         height="97%"

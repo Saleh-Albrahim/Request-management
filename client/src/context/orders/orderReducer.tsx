@@ -1,4 +1,4 @@
-import { GET_TABLE_DATA, UPDATE_SELECTED_TYPE, GET_TYPE_LIST } from '../types';
+import { GET_TABLE_DATA, GET_TYPE_LIST } from '../types';
 
 export default (state: any, action: any) => {
   switch (action.type) {
@@ -6,11 +6,6 @@ export default (state: any, action: any) => {
       return {
         ...state,
         tableData: action.payload,
-      };
-    case UPDATE_SELECTED_TYPE:
-      return {
-        ...state,
-        selectedType: action.payload,
       };
     case GET_TYPE_LIST:
       return {
