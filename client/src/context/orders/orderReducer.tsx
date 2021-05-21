@@ -1,4 +1,4 @@
-import { GET_TABLE_DATA, GET_TYPE_LIST } from '../types';
+import { GET_TABLE_DATA, GET_TYPE_LIST, SET_TYPE } from '../types';
 
 export default (state: any, action: any) => {
   switch (action.type) {
@@ -11,6 +11,11 @@ export default (state: any, action: any) => {
       return {
         ...state,
         typeList: action.payload,
+      };
+    case SET_TYPE:
+      return {
+        ...state,
+        selectedType: action.payload,
       };
     default:
       return state;

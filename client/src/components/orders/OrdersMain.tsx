@@ -1,22 +1,9 @@
 import { Flex, Box, Button, useDisclosure } from '@chakra-ui/react';
 import { useEffect, useContext } from 'react';
-import { AddIcon, EditIcon, DeleteIcon } from '@chakra-ui/icons';
+import { AddIcon } from '@chakra-ui/icons';
 import OrdersTable from './OrdersTable';
 import AddOrder from 'components/orders/AddOrder';
 import OrdersContext from 'context/orders/orderContext';
-
-const buttonStyle: any = {
-  height: '100%',
-  width: '210px',
-  fontSize: '20px',
-  p: '2',
-  backgroundColor: '#F0F0F0',
-  borderColor: '#F0F0F0',
-  borderRadius: '5px',
-  boxShadow: 'base',
-  border: 'none',
-  _hover: { color: 'black', boxShadow: 'lg' },
-};
 
 const OrdersMain: React.FC = () => {
   const ordersContext: any = useContext(OrdersContext);

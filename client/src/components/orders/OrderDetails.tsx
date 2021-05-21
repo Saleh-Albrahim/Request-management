@@ -4,6 +4,8 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  HStack,
+  IconButton,
   Input,
   Modal,
   ModalBody,
@@ -15,37 +17,88 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import OrderContext from 'context/orders/orderContext';
+import UsersContext from 'context/users/usersContext';
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons';
+import { successAlertTimer, errorAlert, confirmAlert } from '../../util/alerts';
+import { updateDetails } from '../../../../src/controllers/authController';
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  data: { type: string; user: string; comment: string };
+  orderID: any;
 }
 
-const OrderDetails: React.FC<Props> = ({ isOpen, onClose, data }) => {
+const OrderDetails: React.FC<Props> = ({ isOpen, onClose, orderID }) => {
   const orderContext = useContext(OrderContext);
+  const usersContext = useContext(UsersContext);
 
   // @ts-ignore
-  const { typeList } = orderContext;
+  const { typeList, updateTableData, selectedType } = orderContext;
+
+  console.log(`selectedType`, selectedType);
+
+  // @ts-ignore
+  const { usersList } = usersContext;
+
+  const [type, setType] = useState(' ');
+
+  const [user, setUser] = useState('');
+
+  const [comment, setComment] = useState('');
+
+  const [order, setOrder]: any = useState({});
+
+  useEffect(() => {
+    const getOrderByID = async () => {
+      const response = await fetch(`/api/v1/orders/${orderID}`);
+
+      if (response.status === 200) {
+        const data = await response.json();
+        setOrder(data);
+      }
+    };
+    if (orderID) {
+      getOrderByID();
+    }
+  }, [orderID]);
+
+  const deleteOrder = async () => {
+    const confirmDelete = await confirmAlert();
+
+    if (confirmDelete.isConfirmed) {
+      const response = await fetch(`/api/v1/orders/${orderID}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      if (response.status === 200) {
+        successAlertTimer(data.message);
+        onClose();
+        updateTableData(selectedType);
+        setOrder('');
+      } else {
+        errorAlert(data.message);
+      }
+    }
+  };
 
   return (
     <>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered size="4xl" closeOnOverlayClick={false}>
+      <Modal onClose={onClose} isOpen={isOpen} isCentered size="xl" closeOnOverlayClick={false}>
         <ModalOverlay />
-        <ModalContent background="#dfdfdf" p={3}>
+        <ModalContent zIndex={1} background="#dfdfdf" p={3}>
           <ModalCloseButton />
-          <Flex alignItems="end" justifyContent="center" flexDirection="column">
-            <ModalHeader m="auto">إضافة طلب جديد</ModalHeader>
+          <Flex justifyContent="center" alignItems="center" flexDirection="column">
+            <ModalHeader>تفاصيل الطلب</ModalHeader>
             <Divider borderColor="black" />
             <ModalBody>
               <FormControl mt={3}>
                 <FormLabel fontSize="15px" fontWeight="bold">
                   نوع الطلب :
                 </FormLabel>
-                <Text
-                  sx={{ 'text-indent': '15px' }}
+                <Select
+                  sx={{ textIndent: '15px' }}
                   outlineColor="black"
                   focusBorderColor="none"
                   variant="outline"
@@ -54,17 +107,20 @@ const OrderDetails: React.FC<Props> = ({ isOpen, onClose, data }) => {
                   borderColor="gray"
                   boxShadow="base"
                   width="500px"
+                  isDisabled
+                  _disabled={{ color: 'black' }}
                   _hover={{ borderColor: 'black' }}
+                  onChange={(e) => setType(e.target[e.target.selectedIndex].id)}
                 >
-                  {data.type}
-                </Text>
+                  <option>{order ? order.type : ' '}</option>
+                </Select>
               </FormControl>
               <FormControl mt={3}>
                 <FormLabel fontSize="15px" fontWeight="bold">
                   العضو المسؤول :
                 </FormLabel>
-                <Text
-                  sx={{ 'text-indent': '15px' }}
+                <Select
+                  sx={{ textIndent: '15px' }}
                   outlineColor="black"
                   focusBorderColor="none"
                   variant="outline"
@@ -73,10 +129,13 @@ const OrderDetails: React.FC<Props> = ({ isOpen, onClose, data }) => {
                   borderColor="gray"
                   boxShadow="base"
                   width="500px"
+                  isDisabled
+                  _disabled={{ color: 'black' }}
                   _hover={{ borderColor: 'black' }}
+                  onChange={(e) => setUser(e.target[e.target.selectedIndex].id)}
                 >
-                  {data.user}
-                </Text>
+                  <option>{order ? order.user : ' '}</option>
+                </Select>
               </FormControl>
               <FormControl mt={3}>
                 <FormLabel fontSize="15px" fontWeight="bold">
@@ -87,24 +146,48 @@ const OrderDetails: React.FC<Props> = ({ isOpen, onClose, data }) => {
                   borderColor="gray"
                   boxShadow="base"
                   width="500px"
+                  value={order ? order.comment : ' '}
+                  onChange={(e) => {
+                    setComment(e.target.value);
+                  }}
                   focusBorderColor="none"
+                  isDisabled
+                  _disabled={{ color: 'black' }}
                   _hover={{ borderColor: 'black' }}
                 />
               </FormControl>
-              <Button
-                mt={5}
-                _hover={{ borderColor: 'black' }}
-                size="md"
-                height="48px"
-                width="250px"
-                border="1px"
-                borderColor="gray"
-                color="#2E2E2E"
-                boxShadow="md"
-                backgroundColor="#dfdfdf"
-              >
-                إضافة الطلب
-              </Button>
+              <HStack justifyContent="space-between" alignItems="center" mt={5}>
+                <Button
+                  _hover={{ borderColor: 'black' }}
+                  size="md"
+                  height="48px"
+                  border="1px"
+                  borderColor="gray"
+                  color="#2E2E2E"
+                  boxShadow="md"
+                  type="button"
+                  backgroundColor="#dfdfdf"
+                  leftIcon={<EditIcon color="black" />}
+                >
+                  تعديل الطلب
+                </Button>
+                <Button
+                  mt={5}
+                  _hover={{ borderColor: 'black' }}
+                  size="md"
+                  height="48px"
+                  border="1px"
+                  borderColor="gray"
+                  color="#2E2E2E"
+                  boxShadow="md"
+                  type="button"
+                  onClick={deleteOrder}
+                  backgroundColor="#dfdfdf"
+                  leftIcon={<DeleteIcon color="black" />}
+                >
+                  حذف الطلب
+                </Button>
+              </HStack>
             </ModalBody>
           </Flex>
         </ModalContent>

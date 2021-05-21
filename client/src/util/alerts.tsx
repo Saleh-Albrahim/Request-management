@@ -30,3 +30,21 @@ export const successAlertTimer = (message: string): void => {
     showConfirmButton: false,
   });
 };
+
+export const confirmAlert = async () => {
+  const res = await MySwal.fire({
+    title: 'هل انت متأكد',
+    text: 'لا تستطيع التراجع عن هذا القرار',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonText: 'متأكد',
+    cancelButtonText: 'تراجع',
+    cancelButtonColor: '#d33',
+    customClass: {
+      container: 'my-swal',
+    },
+    background: '#dfdfdf',
+  });
+
+  return res;
+};

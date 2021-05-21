@@ -2,7 +2,7 @@
 import React, { useReducer } from 'react';
 import orderContext from './orderContext';
 import OrderReducer from './orderReducer';
-import { GET_TABLE_DATA, GET_TYPE_LIST } from '../types';
+import { GET_TABLE_DATA, GET_TYPE_LIST, GET_ONE_ORDER } from '../types';
 
 type Props = {
   children: React.ReactNode;
@@ -43,6 +43,13 @@ const OrderState: React.FC = ({ children }: Props) => {
     }
   };
 
+  const updateType = (type) => {
+    dispatch({
+      type: 'SET_TYPE',
+      payload: type,
+    });
+  };
+
   return (
     <orderContext.Provider
       value={{
@@ -51,6 +58,7 @@ const OrderState: React.FC = ({ children }: Props) => {
         typeList: state.typeList,
         updateTableData,
         getTypeList,
+        updateType,
       }}
     >
       {children}

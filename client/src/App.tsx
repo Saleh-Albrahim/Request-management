@@ -17,9 +17,7 @@ const App: () => JSX.Element = () => {
   const localStorageUser: any = localStorage.getItem('user');
 
   useEffect(() => {
-    if (localStorageUser) {
-      updateUser(localStorageUser);
-    }
+    updateUser(localStorageUser);
   }, []);
 
   return (

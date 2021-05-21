@@ -41,6 +41,7 @@
     "sort-destructure-keys/sort-destructure-keys": "off",
     "react-hooks/exhaustive-deps": "off",
     "import/order": "off",
+    "no-plusplus": "off",
     "no-else-return": "off",
     "comma-dangle": "off",
     "global-require": "off",

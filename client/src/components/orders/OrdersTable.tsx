@@ -1,8 +1,9 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useRef } from 'react';
 import { Box, Flex, Grid, IconButton, Text, useDisclosure, Select, VStack, HStack } from '@chakra-ui/react';
 import { ArrowRightIcon, ArrowLeftIcon } from '@chakra-ui/icons';
 import usePagination from '../../hooks/userPagination';
 import OrderContext from '../../context/orders/orderContext';
+import OrderDetails from './OrderDetails';
 
 interface Props {
   renderActions: () => JSX.Element;
@@ -45,11 +46,13 @@ const OrdersTable: React.FC<Props> = ({ renderActions }) => {
   const orderContext = useContext(OrderContext);
 
   // @ts-ignore
-  const { typeList, tableData, updateTableData } = orderContext;
+  const { typeList, tableData, updateTableData, updateType, selectedType } = orderContext;
 
   const { next, prev, currentData, currentPage, maxPage } = usePagination(tableData, 15);
   const [selectedId, setSelectedId] = useState(null);
   const totalSpan = columns.reduce((total, rec) => total + rec.span, 0);
+
+  const { isOpen: isOrderDetailsOpen, onOpen: onOrderDetailsOpen, onClose: onOrderDetailsClose } = useDisclosure();
 
   const renderHeaderColumn = (index: number, text: string, start: any, span: any) => {
     return (
@@ -96,6 +99,7 @@ const OrdersTable: React.FC<Props> = ({ renderActions }) => {
         overflow="hidden"
         textOverflow="ellipsis"
         key={key}
+        onDoubleClick={onOrderDetailsOpen}
         onClick={() => {
           if (id) {
             setSelectedId(id);
@@ -183,10 +187,11 @@ const OrdersTable: React.FC<Props> = ({ renderActions }) => {
           focusBorderColor="black"
           borderColor="gray"
           onChange={(e) => {
+            updateType(e.target[e.target.selectedIndex].id);
             updateTableData(e.target[e.target.selectedIndex].id);
           }}
           boxShadow="base"
-          width="500px"
+          width="400px"
           _hover={{ borderColor: 'black' }}
         >
           {typeList.map((type: any) => (
@@ -210,6 +215,7 @@ const OrdersTable: React.FC<Props> = ({ renderActions }) => {
         {renderRows(currentData())}
         {renderFooter()}
       </Grid>
+      <OrderDetails onClose={onOrderDetailsClose} isOpen={isOrderDetailsOpen} orderID={selectedId} />
     </VStack>
   );
 };

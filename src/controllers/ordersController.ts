@@ -10,11 +10,10 @@ export const getOrdersType = asyncHandler(async (req: Request, res: Response, ne
     const types = await db.OrderType.findAll({
         raw: true,
     });
-
     res.json(types);
 });
 
-// @desc    Get all the orders types
+// @desc    Get all the orders by there types
 // @route   GET /orders
 // @access    Private
 export const getOrders = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
@@ -25,7 +24,7 @@ export const getOrders = asyncHandler(async (req: Request, res: Response, next: 
     if (!typeID) {
         orders = await db.Orders.findAll({
             raw: true,
-            order: [['createdAt', 'ASC']],
+            order: [['createdAt', 'DESC']],
             include: [
                 {
                     model: db.OrderType,
@@ -60,6 +59,38 @@ export const getOrders = asyncHandler(async (req: Request, res: Response, next: 
     res.json(orders);
 });
 
+// @desc    Get one order by it's id
+// @route   GET orders/:orderID
+// @access    public
+export const getOrderByID = asyncHandler(async (req: any, res: Response, next: NextFunction) => {
+    const id = req.params.orderID;
+
+    console.log(`req.orderID`, req.params.orderID);
+
+    const order = await db.Orders.findAll({
+        raw: true,
+        where: {
+            id,
+        },
+        include: [
+            {
+                model: db.OrderType,
+                attributes: ['id', 'name'],
+            },
+            {
+                model: db.Users,
+                attributes: ['id', 'username'],
+            },
+        ],
+    });
+
+    res.json({
+        type: order[0]['OrderType.name'],
+        user: order[0]['user.username'],
+        comment: order[0].comment,
+    });
+});
+
 // @desc    Add new order
 // @route   POST /orders
 // @access    Private
@@ -81,5 +112,21 @@ export const addOrder = asyncHandler(async (req: Request, res: Response, next: N
     });
     res.json({
         message: 'تم إضافة الطلب بنجاح',
+    });
+});
+
+// @desc    delete order
+// @route   DELETE /orders/:orderID
+// @access    Private
+export const deleteOrder = asyncHandler(async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.orderID;
+
+    await db.Orders.destroy({
+        where: {
+            id,
+        },
+    });
+    res.json({
+        message: 'تم حذف الطلب بنجاح',
     });
 });

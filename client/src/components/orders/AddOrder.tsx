@@ -4,6 +4,7 @@ import {
   Flex,
   FormControl,
   FormLabel,
+  HStack,
   Input,
   Modal,
   ModalBody,
@@ -32,7 +33,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
   const { usersList } = usersContext;
 
   // @ts-ignore
-  const { typeList, updateTableData } = orderContext;
+  const { typeList, updateTableData, selectedType } = orderContext;
 
   const [type, setType] = useState(' ');
 
@@ -59,10 +60,10 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
     const data = await response.json();
     if (response.status === 200) {
       successAlertTimer(data.message);
-      updateTableData('');
       setType('');
       setUser('');
       setComment('');
+      updateTableData(selectedType);
       onClose();
     } else {
       errorAlert(data.message);
@@ -71,12 +72,12 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
 
   return (
     <>
-      <Modal onClose={onClose} isOpen={isOpen} isCentered size="4xl" closeOnOverlayClick={false}>
+      <Modal onClose={onClose} isOpen={isOpen} isCentered size="xl" closeOnOverlayClick={false}>
         <ModalOverlay />
         <ModalContent zIndex={1} background="#dfdfdf" p={3}>
           <ModalCloseButton />
-          <Flex alignItems="end" justifyContent="center" flexDirection="column">
-            <ModalHeader m="auto">إضافة طلب جديد</ModalHeader>
+          <Flex justifyContent="center" alignItems="center" flexDirection="column">
+            <ModalHeader>إضافة طلب جديد</ModalHeader>
             <Divider borderColor="black" />
             <ModalBody>
               <form onSubmit={onSubmit}>
@@ -149,21 +150,24 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                     _hover={{ borderColor: 'black' }}
                   />
                 </FormControl>
-                <Button
-                  mt={5}
-                  _hover={{ borderColor: 'black' }}
-                  size="md"
-                  height="48px"
-                  width="250px"
-                  border="1px"
-                  borderColor="gray"
-                  color="#2E2E2E"
-                  boxShadow="md"
-                  type="submit"
-                  backgroundColor="#dfdfdf"
-                >
-                  إضافة الطلب
-                </Button>
+                <HStack>
+                  <Button
+                    mt={5}
+                    _hover={{ borderColor: 'black' }}
+                    size="md"
+                    height="48px"
+                    width="250px"
+                    border="1px"
+                    mx="auto"
+                    borderColor="gray"
+                    color="#2E2E2E"
+                    boxShadow="md"
+                    type="submit"
+                    backgroundColor="#dfdfdf"
+                  >
+                    إضافة الطلب
+                  </Button>
+                </HStack>
               </form>
             </ModalBody>
           </Flex>
