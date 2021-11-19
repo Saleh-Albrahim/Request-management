@@ -78,15 +78,9 @@ const Login: React.FC = () => {
             />
           </FormControl>
           <Button
-            _hover={{ borderColor: 'black' }}
-            size="md"
             height="48px"
             width="250px"
-            border="1px"
-            borderColor="gray"
-            color="#2E2E2E"
-            boxShadow="md"
-            backgroundColor="#dfdfdf"
+            variant="normal-button"
             onClick={() => {
               submitLogin(username, password);
             }}

@@ -84,10 +84,13 @@ export const getOrderByID = asyncHandler(async (req: any, res: Response, next: N
         ],
     });
 
+    console.log(`order`, order);
+
     res.json({
         type: order[0]['OrderType.name'],
         user: order[0]['user.username'],
         comment: order[0].comment,
+        status: order[0].status,
     });
 });
 

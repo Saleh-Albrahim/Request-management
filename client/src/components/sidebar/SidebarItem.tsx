@@ -1,16 +1,5 @@
 import { Button } from '@chakra-ui/react';
 
-const buttonStyle: any = {
-  height: '60px',
-  width: '240px',
-  fontSize: '20px',
-  backgroundColor: '#F0F0F0',
-  borderColor: '#F0F0F0',
-  borderRadius: '5px',
-  boxShadow: 'base',
-  _hover: { color: 'black', boxShadow: 'lg' },
-};
-
 interface Props {
   updateScene: (value: string) => void;
   value: string;
@@ -33,7 +22,7 @@ const SideBarItem = ({ updateScene, currentScene, value }: Props) => {
     };
   }
   return (
-    <Button {...selected} {...buttonStyle} onClick={(e: any) => updateScene(e.target.innerText)}>
+    <Button {...selected} variant="sidebar-button" onClick={(e: any) => updateScene(e.target.innerText)}>
       {value}
     </Button>
   );

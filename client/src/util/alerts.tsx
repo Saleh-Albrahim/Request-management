@@ -39,7 +39,8 @@ export const confirmAlert = async () => {
     showCancelButton: true,
     confirmButtonText: 'متأكد',
     cancelButtonText: 'تراجع',
-    cancelButtonColor: '#d33',
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#888888',
     customClass: {
       container: 'my-swal',
     },

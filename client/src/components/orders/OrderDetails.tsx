@@ -56,6 +56,7 @@ const OrderDetails: React.FC<Props> = ({ isOpen, onClose, orderID }) => {
 
       if (response.status === 200) {
         const data = await response.json();
+        console.log(`data`, data);
         setOrder(data);
       }
     };
@@ -117,6 +118,28 @@ const OrderDetails: React.FC<Props> = ({ isOpen, onClose, orderID }) => {
               </FormControl>
               <FormControl mt={3}>
                 <FormLabel fontSize="15px" fontWeight="bold">
+                  حالة الطلب
+                </FormLabel>
+                <Select
+                  sx={{ textIndent: '15px' }}
+                  outlineColor="black"
+                  focusBorderColor="none"
+                  variant="outline"
+                  height="48px"
+                  fontSize="15px"
+                  borderColor="gray"
+                  boxShadow="base"
+                  width="500px"
+                  isDisabled
+                  _disabled={{ color: 'black' }}
+                  _hover={{ borderColor: 'black' }}
+                  onChange={(e) => setType(e.target[e.target.selectedIndex].id)}
+                >
+                  <option>{order ? order.status : ' '}</option>
+                </Select>
+              </FormControl>
+              <FormControl mt={3}>
+                <FormLabel fontSize="15px" fontWeight="bold">
                   العضو المسؤول :
                 </FormLabel>
                 <Select
@@ -145,6 +168,7 @@ const OrderDetails: React.FC<Props> = ({ isOpen, onClose, orderID }) => {
                   outlineColor="black"
                   borderColor="gray"
                   boxShadow="base"
+                  resize="none"
                   width="500px"
                   value={order ? order.comment : ' '}
                   onChange={(e) => {
@@ -157,32 +181,14 @@ const OrderDetails: React.FC<Props> = ({ isOpen, onClose, orderID }) => {
                 />
               </FormControl>
               <HStack justifyContent="space-between" alignItems="center" mt={5}>
-                <Button
-                  _hover={{ borderColor: 'black' }}
-                  size="md"
-                  height="48px"
-                  border="1px"
-                  borderColor="gray"
-                  color="#2E2E2E"
-                  boxShadow="md"
-                  type="button"
-                  backgroundColor="#dfdfdf"
-                  leftIcon={<EditIcon color="black" />}
-                >
+                <Button variant="normal-button" height="48px" type="button" leftIcon={<EditIcon color="black" />}>
                   تعديل الطلب
                 </Button>
                 <Button
+                  variant="normal-button"
                   mt={5}
-                  _hover={{ borderColor: 'black' }}
-                  size="md"
                   height="48px"
-                  border="1px"
-                  borderColor="gray"
-                  color="#2E2E2E"
-                  boxShadow="md"
-                  type="button"
                   onClick={deleteOrder}
-                  backgroundColor="#dfdfdf"
                   leftIcon={<DeleteIcon color="black" />}
                 >
                   حذف الطلب

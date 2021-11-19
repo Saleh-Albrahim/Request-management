@@ -9,8 +9,7 @@ import Reports from '../components/reports/ReportMain';
 
 const Dashboard: React.FC = () => {
   const [scene, setScene] = useState('الرئيسية');
-  const [Stage, setStage] = useState(<Home />);
-  const [sidebarItems, setSidebarItems] = useState([]);
+  const [stage, setStage] = useState(<Home />);
 
   const usersContext = useContext(UsersContext);
 
@@ -59,7 +58,7 @@ const Dashboard: React.FC = () => {
         justifyContent="center"
         p={2}
       >
-        {Stage}
+        {stage}
       </Flex>
     </Flex>
   );

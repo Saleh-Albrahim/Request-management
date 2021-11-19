@@ -21,14 +21,9 @@ const OrdersMain: React.FC = () => {
     return (
       <Button
         onClick={onAddOrderOpen}
-        _hover={{ borderColor: 'black' }}
+        variant="normal-button"
         width="250px"
-        border="1px"
         height="48px"
-        borderColor="gray"
-        color="#2E2E2E"
-        boxShadow="md"
-        backgroundColor="#dfdfdf"
         leftIcon={<AddIcon color="black" />}
       >
         إضافة طلب جديد

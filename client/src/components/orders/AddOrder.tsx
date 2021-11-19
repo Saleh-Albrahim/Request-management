@@ -142,6 +142,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                     borderColor="gray"
                     boxShadow="base"
                     width="500px"
+                    resize="none"
                     value={comment}
                     onChange={(e) => {
                       setComment(e.target.value);
@@ -151,20 +152,7 @@ const AddOrder: React.FC<Props> = ({ isOpen, onClose }) => {
                   />
                 </FormControl>
                 <HStack>
-                  <Button
-                    mt={5}
-                    _hover={{ borderColor: 'black' }}
-                    size="md"
-                    height="48px"
-                    width="250px"
-                    border="1px"
-                    mx="auto"
-                    borderColor="gray"
-                    color="#2E2E2E"
-                    boxShadow="md"
-                    type="submit"
-                    backgroundColor="#dfdfdf"
-                  >
+                  <Button variant="normal-button" mt={5} height="48px" width="250px" mx="auto" type="submit">
                     إضافة الطلب
                   </Button>
                 </HStack>
